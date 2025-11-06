@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import Navbar from "../components/Navbar"
+import MagicBento from "../components/MagicBento"
+import styles from "../styles/glass.module.css"
 import axios from "axios"
 import {
   Chart as ChartJS,
@@ -147,18 +149,44 @@ export default function Dashboard() {
   }
 
   return (
-    <div style={{ minHeight: "100vh" }}>
+    <div style={{ 
+      minHeight: "100vh",
+      background: "linear-gradient(135deg, #0a0118 0%, #1a0a2e 50%, #0a0118 100%)",
+      position: "relative"
+    }}>
+      {/* Purple ambient glow overlay */}
+      <div style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: "radial-gradient(ellipse at 50% 50%, rgba(132, 0, 255, 0.15) 0%, transparent 70%)",
+        pointerEvents: "none",
+        zIndex: 0
+      }} />
+      
+      <div style={{ position: "relative", zIndex: 1 }}>
       <Navbar />
 
-      <div className="container-custom">
+        <div className="container-custom">
         <motion.div
-          className="page-header"
+          className={`${styles.pageHeaderGlass} page-header`}
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1 className="page-title">Analytics Dashboard 📊</h1>
-          <p className="page-subtitle">Track your progress and performance</p>
+          <h1 className={`page-title ${styles.glassTextGlow}`} style={{
+            textShadow: "2px 2px 0px rgba(0,0,0,0.3), -1px -1px 0px rgba(255,255,255,0.1)",
+            WebkitTextStroke: "1px rgba(255,255,255,0.1)"
+          }}>
+            Analytics Dashboard
+          </h1>
+          <p className="page-subtitle" style={{
+            textShadow: "1px 1px 2px rgba(0,0,0,0.5)"
+          }}>
+            Track your progress and performance
+          </p>
         </motion.div>
 
         {loading ? (
@@ -167,104 +195,197 @@ export default function Dashboard() {
           </div>
         ) : (
           <>
-            {/* Summary Cards */}
-            <motion.div className="row g-4 mb-5" variants={containerVariants} initial="hidden" animate="visible">
-              <motion.div className="col-md-6" variants={itemVariants}>
-                <div className="feature-card">
-                  <motion.div className="d-flex align-items-center" whileHover={{ scale: 1.02 }}>
-                    <div
-                      style={{
-                        fontSize: "3rem",
-                        marginRight: "1.5rem",
-                        background: "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)",
-                        WebkitBackgroundClip: "text",
-                        WebkitTextFillColor: "transparent",
-                      }}
-                    >
-                      📝
+            {/* Summary Cards with Magic Bento */}
+            <MagicBento
+              textAutoHide={false}
+              enableStars={true}
+              enableSpotlight={true}
+              enableBorderGlow={true}
+              enableTilt={true}
+              enableMagnetism={true}
+              clickEffect={true}
+              spotlightRadius={300}
+              particleCount={8}
+              glowColor="102, 126, 234"
+              cards={[
+                {
+                  color: '#0a0118',
+                  title: 'Total Problems',
+                  label: 'Progress',
+                  content: (
+                    <motion.div className="d-flex align-items-center" whileHover={{ scale: 1.02 }}>
+                      <div
+                        style={{
+                          fontSize: '2.5rem',
+                          marginRight: '1rem',
+                          background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                          WebkitBackgroundClip: 'text',
+                          WebkitTextFillColor: 'transparent',
+                        }}
+                      >
+                        📝
+                      </div>
+                      <div>
+                        <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#f1f5f9', margin: 0 }}>
+                          {summary.total_problems}
+                        </h2>
+                        <p style={{ margin: 0, fontSize: '0.875rem', color: '#9CA3AF' }}>
+                          Problems Solved
+                        </p>
+                      </div>
+                    </motion.div>
+                  )
+                },
+                {
+                  color: '#0a0118',
+                  title: 'Total Points',
+                  label: 'Score',
+                  content: (
+                    <motion.div className="d-flex align-items-center" whileHover={{ scale: 1.02 }}>
+                      <div
+                        style={{
+                          fontSize: '2.5rem',
+                          marginRight: '1rem',
+                          background: 'linear-gradient(135deg, #10b981 0%, #047857 100%)',
+                          WebkitBackgroundClip: 'text',
+                          WebkitTextFillColor: 'transparent',
+                        }}
+                      >
+                        ⭐
+                      </div>
+                      <div>
+                        <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#f1f5f9', margin: 0 }}>
+                          {summary.total_points}
+                        </h2>
+                        <p style={{ margin: 0, fontSize: '0.875rem', color: '#9CA3AF' }}>
+                          Points Earned
+                        </p>
+                      </div>
+                    </motion.div>
+                  )
+                },
+                {
+                  color: '#0a0118',
+                  title: 'Difficulty Distribution',
+                  label: 'Analysis',
+                  content: difficultyData ? (
+                    <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                      <div style={{ maxWidth: '280px', margin: '0 auto', height: '200px' }}>
+                        <Doughnut data={difficultyData} options={{
+                          ...chartOptions,
+                          maintainAspectRatio: false,
+                          plugins: {
+                            legend: {
+                              position: 'bottom',
+                              labels: {
+                                padding: 10,
+                                font: { size: 10, weight: 'bold' },
+                                color: '#F9FAFB'
+                              },
+                            },
+                          },
+                        }} />
+                      </div>
                     </div>
-                    <div>
-                      <h2 style={{ fontSize: "2.5rem", fontWeight: "bold", color: "#f1f5f9", margin: 0 }}>
-                        {summary.total_problems}
-                      </h2>
-                      <p className="card-text" style={{ margin: 0 }}>
-                        Total Problems Solved
-                      </p>
+                  ) : (
+                    <p className="text-center" style={{ color: '#9CA3AF' }}>No data available</p>
+                  )
+                },
+                {
+                  color: '#0a0118',
+                  title: 'Topic Distribution',
+                  label: 'Topics',
+                  content: topicData ? (
+                    <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                      <div style={{ height: '250px' }}>
+                        <Bar data={topicData} options={{
+                          ...chartOptions,
+                          maintainAspectRatio: false,
+                          plugins: {
+                            legend: {
+                              display: false
+                            },
+                          },
+                          scales: {
+                            y: {
+                              ticks: { color: '#9CA3AF' },
+                              grid: { color: 'rgba(255,255,255,0.05)' }
+                            },
+                            x: {
+                              ticks: { color: '#9CA3AF' },
+                              grid: { display: false }
+                            }
+                          }
+                        }} />
+                      </div>
                     </div>
-                  </motion.div>
-                </div>
-              </motion.div>
+                  ) : (
+                    <p className="text-center" style={{ color: '#9CA3AF' }}>No data available</p>
+                  )
+                },
+                {
+                  color: '#0a0118',
+                  title: 'Points Progress',
+                  label: 'Timeline',
+                  content: pointsData ? (
+                    <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                      <div style={{ height: '180px' }}>
+                        <Line data={pointsData} options={{
+                          ...chartOptions,
+                          maintainAspectRatio: false,
+                          plugins: {
+                            legend: {
+                              display: false
+                            },
+                          },
+                          scales: {
+                            y: {
+                              ticks: { color: '#9CA3AF' },
+                              grid: { color: 'rgba(255,255,255,0.05)' }
+                            },
+                            x: {
+                              ticks: { color: '#9CA3AF' },
+                              grid: { display: false }
+                            }
+                          }
+                        }} />
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="text-center" style={{ color: '#9CA3AF' }}>No data available</p>
+                  )
+                },
+                {
+                  color: '#0a0118',
+                  title: 'Quick Actions',
+                  label: 'Navigate',
+                  content: (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', justifyContent: 'center', height: '100%' }}>
+                      <motion.button
+                        className="btn btn-primary-custom"
+                        onClick={() => router.push("/tracker")}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        style={{ fontSize: '0.875rem' }}
+                      >
+                        Go to Tracker
+                      </motion.button>
+                      <motion.button
+                        className="btn btn-primary-custom"
+                        onClick={() => router.push("/upload")}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        style={{ fontSize: '0.875rem', background: 'linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%)' }}
+                      >
+                        Upload Resume
+                      </motion.button>
+                    </div>
+                  )
+                }
+              ]}
+            />
 
-              <motion.div className="col-md-6" variants={itemVariants}>
-                <div className="feature-card">
-                  <motion.div className="d-flex align-items-center" whileHover={{ scale: 1.02 }}>
-                    <div
-                      style={{
-                        fontSize: "3rem",
-                        marginRight: "1.5rem",
-                        background: "linear-gradient(135deg, #10b981 0%, #047857 100%)",
-                        WebkitBackgroundClip: "text",
-                        WebkitTextFillColor: "transparent",
-                      }}
-                    >
-                      ⭐
-                    </div>
-                    <div>
-                      <h2 style={{ fontSize: "2.5rem", fontWeight: "bold", color: "#f1f5f9", margin: 0 }}>
-                        {summary.total_points}
-                      </h2>
-                      <p className="card-text" style={{ margin: 0 }}>
-                        Total Points Earned
-                      </p>
-                    </div>
-                  </motion.div>
-                </div>
-              </motion.div>
-            </motion.div>
-
-            {/* Charts */}
-            {summary.total_problems > 0 ? (
-              <>
-                <motion.div className="row g-4 mb-5" variants={containerVariants} initial="hidden" animate="visible">
-                  <motion.div className="col-md-6" variants={itemVariants}>
-                    <div className="feature-card">
-                      <h3 className="card-title">Problems by Difficulty</h3>
-                      {difficultyData ? (
-                        <div style={{ maxWidth: "300px", margin: "0 auto" }}>
-                          <Doughnut data={difficultyData} options={chartOptions} />
-                        </div>
-                      ) : (
-                        <p className="text-center text-muted">No data available</p>
-                      )}
-                    </div>
-                  </motion.div>
-
-                  <motion.div className="col-md-6" variants={itemVariants}>
-                    <div className="feature-card">
-                      <h3 className="card-title">Problems by Topic</h3>
-                      {topicData ? (
-                        <Bar data={topicData} options={chartOptions} />
-                      ) : (
-                        <p className="text-center text-muted">No data available</p>
-                      )}
-                    </div>
-                  </motion.div>
-                </motion.div>
-
-                <motion.div className="row g-4 mb-5" variants={itemVariants} initial="hidden" animate="visible">
-                  <motion.div className="col-12" variants={itemVariants}>
-                    <div className="feature-card">
-                      <h3 className="card-title">Points Progress Over Time</h3>
-                      {pointsData ? (
-                        <Line data={pointsData} options={chartOptions} />
-                      ) : (
-                        <p className="text-center text-muted">No data available</p>
-                      )}
-                    </div>
-                  </motion.div>
-                </motion.div>
-              </>
-            ) : (
+            {summary.total_problems === 0 && (
               <motion.div
                 className="feature-card text-center"
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -335,6 +456,7 @@ export default function Dashboard() {
             )}
           </>
         )}
+      </div>
       </div>
     </div>
   )

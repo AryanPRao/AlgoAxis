@@ -105,8 +105,17 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className={`page-title ${styles.glassTextGlow}`}>Welcome to InterviewMate 🎯</h1>
-            <p className="page-subtitle">Your complete platform for technical interview preparation</p>
+            <h1 className={`page-title ${styles.glassTextGlow}`} style={{
+              textShadow: "2px 2px 0px rgba(0,0,0,0.3), -1px -1px 0px rgba(255,255,255,0.1)",
+              WebkitTextStroke: "1px rgba(255,255,255,0.1)"
+            }}>
+              Welcome to InterviewMate
+            </h1>
+            <p className="page-subtitle" style={{
+              textShadow: "1px 1px 2px rgba(0,0,0,0.5)"
+            }}>
+              Your complete platform for technical interview preparation
+            </p>
           </motion.div>
 
           {/* Features Grid */}
@@ -117,8 +126,12 @@ export default function Home() {
                   <div className={`${styles.cardIconGlass} card-icon`} style={{ color: feature.color }}>
                     {feature.icon}
                   </div>
-                  <h3 className="card-title">{feature.title}</h3>
-                  <p className="card-text">{feature.description}</p>
+                  <h3 className="card-title" style={{
+                    textShadow: "1px 1px 2px rgba(0,0,0,0.4), -0.5px -0.5px 1px rgba(255,255,255,0.05)"
+                  }}>{feature.title}</h3>
+                  <p className="card-text" style={{
+                    textShadow: "1px 1px 1px rgba(0,0,0,0.3)"
+                  }}>{feature.description}</p>
                   <motion.button
                     className={styles.glassButton}
                     onClick={() => router.push(feature.link)}
@@ -142,29 +155,75 @@ export default function Home() {
               viewport={{ once: true }}
             >
             <div className={styles.glassFeatureCard}>
-              <h3 className="card-title">🚀 Quick Stats</h3>
-              <p className="card-text mb-4">Track your progress and stay motivated with real-time statistics</p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ color: '#60A5FA' }}>
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                </svg>
+                <h3 className="card-title" style={{ 
+                  margin: 0,
+                  textShadow: "1px 1px 2px rgba(0,0,0,0.4), -0.5px -0.5px 1px rgba(255,255,255,0.05)"
+                }}>Quick Stats</h3>
+              </div>
+              <p className="card-text mb-4" style={{
+                textShadow: "1px 1px 1px rgba(0,0,0,0.3)"
+              }}>Track your progress and stay motivated with real-time statistics</p>
               <div className="row text-center g-3">
                 <div className="col-4">
                   <motion.div className={styles.glassStatCard} whileHover={{ y: -5 }}>
-                    <h2 style={{ fontSize: "2rem", fontWeight: "bold", margin: 0, color: "#60A5FA" }}>0</h2>
-                    <p style={{ margin: 0, fontSize: "0.9rem", marginTop: "0.5rem", color: "#CBD5E1" }}>
+                    <h2 style={{ 
+                      fontSize: "2rem", 
+                      fontWeight: "bold", 
+                      margin: 0, 
+                      color: "#60A5FA",
+                      textShadow: "2px 2px 3px rgba(0,0,0,0.5), -1px -1px 1px rgba(255,255,255,0.1)"
+                    }}>0</h2>
+                    <p style={{ 
+                      margin: 0, 
+                      fontSize: "0.9rem", 
+                      marginTop: "0.5rem", 
+                      color: "#CBD5E1",
+                      textShadow: "1px 1px 2px rgba(0,0,0,0.4)"
+                    }}>
                       Problems
                     </p>
                   </motion.div>
                 </div>
                 <div className="col-4">
                   <motion.div className={styles.glassStatCard} whileHover={{ y: -5 }}>
-                    <h2 style={{ fontSize: "2rem", fontWeight: "bold", margin: 0, color: "#8B5CF6" }}>0</h2>
-                    <p style={{ margin: 0, fontSize: "0.9rem", marginTop: "0.5rem", color: "#CBD5E1" }}>
+                    <h2 style={{ 
+                      fontSize: "2rem", 
+                      fontWeight: "bold", 
+                      margin: 0, 
+                      color: "#8B5CF6",
+                      textShadow: "2px 2px 3px rgba(0,0,0,0.5), -1px -1px 1px rgba(255,255,255,0.1)"
+                    }}>0</h2>
+                    <p style={{ 
+                      margin: 0, 
+                      fontSize: "0.9rem", 
+                      marginTop: "0.5rem", 
+                      color: "#CBD5E1",
+                      textShadow: "1px 1px 2px rgba(0,0,0,0.4)"
+                    }}>
                       Points
                     </p>
                   </motion.div>
                 </div>
                 <div className="col-4">
                   <motion.div className={styles.glassStatCard} whileHover={{ y: -5 }}>
-                    <h2 style={{ fontSize: "2rem", fontWeight: "bold", margin: 0, color: "#6366F1" }}>0</h2>
-                    <p style={{ margin: 0, fontSize: "0.9rem", marginTop: "0.5rem", color: "#CBD5E1" }}>
+                    <h2 style={{ 
+                      fontSize: "2rem", 
+                      fontWeight: "bold", 
+                      margin: 0, 
+                      color: "#6366F1",
+                      textShadow: "2px 2px 3px rgba(0,0,0,0.5), -1px -1px 1px rgba(255,255,255,0.1)"
+                    }}>0</h2>
+                    <p style={{ 
+                      margin: 0, 
+                      fontSize: "0.9rem", 
+                      marginTop: "0.5rem", 
+                      color: "#CBD5E1",
+                      textShadow: "1px 1px 2px rgba(0,0,0,0.4)"
+                    }}>
                       Streak
                     </p>
                   </motion.div>
@@ -181,13 +240,29 @@ export default function Home() {
             viewport={{ once: true }}
           >
             <div className={styles.glassFeatureCard}>
-              <h3 className="card-title">💡 Pro Tips</h3>
-              <ul style={{ color: "#9CA3AF", fontSize: "1rem", lineHeight: 1.7, fontWeight: 300 }}>
-                <li>✓ Start with Easy problems to build confidence</li>
-                <li>✓ Focus on understanding patterns, not memorizing</li>
-                <li>✓ Practice consistently - even 1 problem daily helps</li>
-                <li>✓ Review your solutions and optimize them</li>
-                <li>✓ Track topics you're weak in and improve them</li>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ color: '#8B5CF6' }}>
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M12 16v-4"></path>
+                  <path d="M12 8h.01"></path>
+                </svg>
+                <h3 className="card-title" style={{ 
+                  margin: 0,
+                  textShadow: "1px 1px 2px rgba(0,0,0,0.4), -0.5px -0.5px 1px rgba(255,255,255,0.05)"
+                }}>Pro Tips</h3>
+              </div>
+              <ul style={{ 
+                color: "#9CA3AF", 
+                fontSize: "1rem", 
+                lineHeight: 1.7, 
+                fontWeight: 300,
+                textShadow: "1px 1px 1px rgba(0,0,0,0.3)"
+              }}>
+                <li>Start with Easy problems to build confidence</li>
+                <li>Focus on understanding patterns, not memorizing</li>
+                <li>Practice consistently - even 1 problem daily helps</li>
+                <li>Review your solutions and optimize them</li>
+                <li>Track topics you're weak in and improve them</li>
               </ul>
             </div>
           </motion.div>
@@ -202,18 +277,74 @@ export default function Home() {
             viewport={{ once: true }}
           >
             <div className={styles.glassFeatureCard} style={{ maxWidth: "900px", margin: "0 auto" }}>
-              <h3 className="card-title">🎓 How InterviewMate Works</h3>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem', justifyContent: 'center' }}>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ color: '#6366F1' }}>
+                  <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                  <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                </svg>
+                <h3 className="card-title" style={{ 
+                  margin: 0,
+                  textShadow: "1px 1px 2px rgba(0,0,0,0.4), -0.5px -0.5px 1px rgba(255,255,255,0.05)"
+                }}>How InterviewMate Works</h3>
+              </div>
               <div className="row mt-4 g-3">
                 {[
-                  { icon: "📝", title: "Track", desc: "Log every problem you solve" },
-                  { icon: "📊", title: "Analyze", desc: "Review your progress" },
-                  { icon: "🎯", title: "Improve", desc: "Focus on weak areas" },
-                  { icon: "🏆", title: "Succeed", desc: "Ace your interviews" },
+                  { 
+                    icon: <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ color: '#60A5FA' }}>
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                      <polyline points="14 2 14 8 20 8"></polyline>
+                      <line x1="16" y1="13" x2="8" y2="13"></line>
+                      <line x1="16" y1="17" x2="8" y2="17"></line>
+                      <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>,
+                    title: "Track", 
+                    desc: "Log every problem you solve" 
+                  },
+                  { 
+                    icon: <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ color: '#8B5CF6' }}>
+                      <line x1="18" y1="20" x2="18" y2="10"></line>
+                      <line x1="12" y1="20" x2="12" y2="4"></line>
+                      <line x1="6" y1="20" x2="6" y2="14"></line>
+                    </svg>,
+                    title: "Analyze", 
+                    desc: "Review your progress" 
+                  },
+                  { 
+                    icon: <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ color: '#6366F1' }}>
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="16 12 12 8 8 12"></polyline>
+                      <line x1="12" y1="16" x2="12" y2="8"></line>
+                    </svg>,
+                    title: "Improve", 
+                    desc: "Focus on weak areas" 
+                  },
+                  { 
+                    icon: <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ color: '#A78BFA' }}>
+                      <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                      <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+                      <path d="M4 22h16"></path>
+                      <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+                      <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+                      <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+                    </svg>,
+                    title: "Succeed", 
+                    desc: "Ace your interviews" 
+                  },
               ].map((step, idx) => (
                 <motion.div key={idx} className="col-md-3 mb-3" whileHover={{ y: -8 }}>
-                  <div style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>{step.icon}</div>
-                  <h5 style={{ fontWeight: 600, color: "#F9FAFB", fontFamily: 'Inter' }}>{step.title}</h5>
-                  <p style={{ fontSize: "0.9rem", color: "#9CA3AF", fontWeight: 300 }}>{step.desc}</p>
+                  <div style={{ marginBottom: "0.75rem" }}>{step.icon}</div>
+                  <h5 style={{ 
+                    fontWeight: 600, 
+                    color: "#F9FAFB", 
+                    fontFamily: 'Inter',
+                    textShadow: "1px 1px 2px rgba(0,0,0,0.4)"
+                  }}>{step.title}</h5>
+                  <p style={{ 
+                    fontSize: "0.9rem", 
+                    color: "#9CA3AF", 
+                    fontWeight: 300,
+                    textShadow: "1px 1px 1px rgba(0,0,0,0.3)"
+                  }}>{step.desc}</p>
                 </motion.div>
               ))}
               </div>

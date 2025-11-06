@@ -44,12 +44,26 @@ export default function Navbar() {
         { label: "Register", href: "/register" },
       ]
 
+  // Check if we're on the dashboard page
+  const isDashboard = router.pathname === "/dashboard"
+  
+  // Dynamic navbar style based on page
+  const navbarStyle = isDashboard ? {
+    background: "rgba(132, 0, 255, 0.08)",
+    backdropFilter: "blur(16px)",
+    WebkitBackdropFilter: "blur(16px)",
+    borderBottom: "1px solid rgba(132, 0, 255, 0.2)",
+    boxShadow: "0 4px 30px rgba(132, 0, 255, 0.1)"
+  } : {}
+
   return (
-    <nav className={`${styles.glassNavbar} navbar-custom`}>
+    <nav className={`${styles.glassNavbar} navbar-custom`} style={navbarStyle}>
       <div className="container-custom">
         <div className="d-flex justify-content-between align-items-center">
           <Link href="/" className="navbar-brand" style={{ 
-            background: "linear-gradient(135deg, #60A5FA, #6366F1, #8B5CF6)",
+            background: isDashboard 
+              ? "linear-gradient(135deg, #a78bfa, #8b5cf6, #7c3aed)"
+              : "linear-gradient(135deg, #60A5FA, #6366F1, #8B5CF6)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundClip: "text",
@@ -58,7 +72,9 @@ export default function Navbar() {
             fontFamily: 'Inter',
             textShadow: "none",
             letterSpacing: "-0.02em",
-            filter: "drop-shadow(0 0 20px rgba(99, 102, 241, 0.3))"
+            filter: isDashboard 
+              ? "drop-shadow(0 0 20px rgba(132, 0, 255, 0.4))"
+              : "drop-shadow(0 0 20px rgba(99, 102, 241, 0.3))"
           }}>
             ✨ InterviewMate
           </Link>

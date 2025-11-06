@@ -151,7 +151,13 @@ export default function Tracker() {
       
       <div className="container-custom">
         <div className="page-header fade-in-up">
-          <h1 className="page-title">Problem Tracker 📝</h1>
+          <h1 className="page-title" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 3h7l5 5v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" stroke="#9CA3AF" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M8 7h8M8 11h8" stroke="#9CA3AF" strokeWidth="0.9" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            Problem Tracker
+          </h1>
           <p className="page-subtitle">Keep track of all your coding problems</p>
         </div>
 
@@ -193,7 +199,13 @@ export default function Tracker() {
           </div>
         ) : problems.length === 0 ? (
           <div className="feature-card text-center fade-in-up">
-            <h3 className="card-title">No Problems Yet 🎯</h3>
+            <h3 className="card-title" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center' }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="9" stroke="#9CA3AF" strokeWidth="1.2" />
+                <path d="M12 8v8M8 12h8" stroke="#9CA3AF" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              No Problems Yet
+            </h3>
             <p className="card-text">Start by adding your first coding problem!</p>
           </div>
         ) : (
