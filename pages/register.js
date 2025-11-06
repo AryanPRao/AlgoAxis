@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import styles from '../styles/glass.module.css';
 
 export default function Register() {
   const router = useRouter();
@@ -69,87 +70,181 @@ export default function Register() {
   };
 
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center">
-        <div className="col-md-6">
-          <div className="card shadow">
-            <div className="card-body p-5">
-              <h2 className="text-center mb-4">Create Account</h2>
+    <div style={{ minHeight: "100vh", position: "relative", overflow: "hidden" }}>
+      {/* Static silk hue background (non-animated) */}
+      <div className={styles.silkHueBackground} />
 
-              {error && (
-                <div className="alert alert-danger" role="alert">
-                  {error}
-                </div>
-              )}
+      {/* Centered content wrapper */}
+      <div style={{ 
+        position: "relative", 
+        zIndex: 1, 
+        minHeight: "100vh", 
+        display: "flex", 
+        alignItems: "center", 
+        justifyContent: "center",
+        padding: "2rem"
+      }}>
+        <div className={styles.glassFeatureCard} style={{ maxWidth: "450px", width: "100%" }}>
+          <h2 className={styles.primaryHeading} style={{ textAlign: "center", fontSize: "2rem", marginBottom: "1.5rem" }}>
+            Create Account ✨
+          </h2>
 
-              <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                  <label htmlFor="name" className="form-label">Full Name</label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    className="form-control"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-
-                <div className="mb-3">
-                  <label htmlFor="email" className="form-label">Email</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    className="form-control"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-
-                <div className="mb-3">
-                  <label htmlFor="password" className="form-label">Password</label>
-                  <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    className="form-control"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-
-                <div className="mb-3">
-                  <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
-                  <input
-                    type="password"
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    className="form-control"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-
-                <button 
-                  type="submit" 
-                  className="btn btn-primary w-100"
-                  disabled={loading}
-                >
-                  {loading ? 'Creating Account...' : 'Sign Up'}
-                </button>
-              </form>
-
-              <div className="text-center mt-3">
-                <p>
-                  Already have an account? <a href="/login">Login here</a>
-                </p>
-              </div>
+          {error && (
+            <div style={{
+              padding: "1rem",
+              marginBottom: "1.5rem",
+              borderRadius: "12px",
+              background: "rgba(239, 68, 68, 0.1)",
+              border: "1px solid rgba(239, 68, 68, 0.3)",
+              color: "#FCA5A5",
+              fontSize: "0.9rem"
+            }}>
+              {error}
             </div>
+          )}
+
+          <form onSubmit={handleSubmit}>
+            <div style={{ marginBottom: "1.25rem" }}>
+              <label htmlFor="name" style={{ 
+                display: "block",
+                marginBottom: "0.5rem",
+                color: "#D1D5DB",
+                fontSize: "0.9rem",
+                fontWeight: "500"
+              }}>
+                Full Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                style={{
+                  width: "100%",
+                  padding: "0.75rem 1rem",
+                  borderRadius: "12px",
+                  background: "rgba(255, 255, 255, 0.05)",
+                  border: "1px solid rgba(255, 255, 255, 0.1)",
+                  color: "#F9FAFB",
+                  fontSize: "0.95rem",
+                  outline: "none",
+                  transition: "all 0.3s ease"
+                }}
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div style={{ marginBottom: "1.25rem" }}>
+              <label htmlFor="email" style={{ 
+                display: "block",
+                marginBottom: "0.5rem",
+                color: "#D1D5DB",
+                fontSize: "0.9rem",
+                fontWeight: "500"
+              }}>
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                style={{
+                  width: "100%",
+                  padding: "0.75rem 1rem",
+                  borderRadius: "12px",
+                  background: "rgba(255, 255, 255, 0.05)",
+                  border: "1px solid rgba(255, 255, 255, 0.1)",
+                  color: "#F9FAFB",
+                  fontSize: "0.95rem",
+                  outline: "none",
+                  transition: "all 0.3s ease"
+                }}
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div style={{ marginBottom: "1.25rem" }}>
+              <label htmlFor="password" style={{ 
+                display: "block",
+                marginBottom: "0.5rem",
+                color: "#D1D5DB",
+                fontSize: "0.9rem",
+                fontWeight: "500"
+              }}>
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                style={{
+                  width: "100%",
+                  padding: "0.75rem 1rem",
+                  borderRadius: "12px",
+                  background: "rgba(255, 255, 255, 0.05)",
+                  border: "1px solid rgba(255, 255, 255, 0.1)",
+                  color: "#F9FAFB",
+                  fontSize: "0.95rem",
+                  outline: "none",
+                  transition: "all 0.3s ease"
+                }}
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div style={{ marginBottom: "1.5rem" }}>
+              <label htmlFor="confirmPassword" style={{ 
+                display: "block",
+                marginBottom: "0.5rem",
+                color: "#D1D5DB",
+                fontSize: "0.9rem",
+                fontWeight: "500"
+              }}>
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                style={{
+                  width: "100%",
+                  padding: "0.75rem 1rem",
+                  borderRadius: "12px",
+                  background: "rgba(255, 255, 255, 0.05)",
+                  border: "1px solid rgba(255, 255, 255, 0.1)",
+                  color: "#F9FAFB",
+                  fontSize: "0.95rem",
+                  outline: "none",
+                  transition: "all 0.3s ease"
+                }}
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <button 
+              type="submit" 
+              className={styles.glassButton}
+              style={{ width: "100%", marginBottom: "1rem" }}
+              disabled={loading}
+            >
+              {loading ? 'Creating Account...' : 'Sign Up'}
+            </button>
+          </form>
+
+          <div style={{ textAlign: "center", marginTop: "1rem" }}>
+            <p style={{ color: "#9CA3AF", fontSize: "0.9rem" }}>
+              Already have an account?{' '}
+              <a href="/login" style={{ color: "#A5B4FC", textDecoration: "none", fontWeight: "500" }}>
+                Login here
+              </a>
+            </p>
           </div>
         </div>
       </div>

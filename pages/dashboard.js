@@ -5,6 +5,7 @@ import { useRouter } from "next/router"
 import Navbar from "../components/Navbar"
 import MagicBento from "../components/MagicBento"
 import styles from "../styles/glass.module.css"
+import mbStyles from "../components/MagicBento.module.css"
 import axios from "axios"
 import {
   Chart as ChartJS,
@@ -149,23 +150,10 @@ export default function Dashboard() {
   }
 
   return (
-    <div style={{ 
-      minHeight: "100vh",
-      background: "linear-gradient(135deg, #0a0118 0%, #1a0a2e 50%, #0a0118 100%)",
-      position: "relative"
-    }}>
-      {/* Purple ambient glow overlay */}
-      <div style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        background: "radial-gradient(ellipse at 50% 50%, rgba(132, 0, 255, 0.15) 0%, transparent 70%)",
-        pointerEvents: "none",
-        zIndex: 0
-      }} />
-      
+    <div style={{ minHeight: "100vh", position: "relative", overflow: "hidden" }}>
+      {/* Static silk hue background (non-animated) */}
+      <div className={styles.silkHueBackground} />
+
       <div style={{ position: "relative", zIndex: 1 }}>
       <Navbar />
 
@@ -176,15 +164,10 @@ export default function Dashboard() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1 className={`page-title ${styles.glassTextGlow}`} style={{
-            textShadow: "2px 2px 0px rgba(0,0,0,0.3), -1px -1px 0px rgba(255,255,255,0.1)",
-            WebkitTextStroke: "1px rgba(255,255,255,0.1)"
-          }}>
+          <h1 className={styles.primaryHeading}>
             Analytics Dashboard
           </h1>
-          <p className="page-subtitle" style={{
-            textShadow: "1px 1px 2px rgba(0,0,0,0.5)"
-          }}>
+          <p className={styles.subheading}>
             Track your progress and performance
           </p>
         </motion.div>
@@ -387,20 +370,24 @@ export default function Dashboard() {
 
             {summary.total_problems === 0 && (
               <motion.div
-                className="feature-card text-center"
+                className={`${mbStyles.magicBentoCard} ${mbStyles.magicBentoCardBorderGlow}`}
+                style={{ backgroundColor: '#0a0118', padding: '1.5rem', borderRadius: '20px', marginTop: '1.5rem' }}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
               >
-                <h3 className="card-title">No Data Yet 📈</h3>
-                <p className="card-text">Start solving problems to see your analytics!</p>
-                <motion.button
-                  className="btn btn-primary-custom mt-3"
-                  onClick={() => router.push("/tracker")}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  Go to Tracker
-                </motion.button>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+                  <h3 className={styles.cardTitle} style={{ marginBottom: '0.5rem' }}>No Data Yet</h3>
+                  <p className={styles.cardDescription} style={{ textAlign: 'center', marginBottom: '1.25rem' }}>Start solving problems to see your analytics!</p>
+                  <motion.button
+                    className={`${styles.glassButton}`}
+                    onClick={() => router.push("/tracker")}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    style={{ padding: '0.75rem 2rem' }}
+                  >
+                    Go to Tracker
+                  </motion.button>
+                </div>
               </motion.div>
             )}
 
@@ -414,8 +401,8 @@ export default function Dashboard() {
                 viewport={{ once: true }}
               >
                 <div className="col-12">
-                  <div className="feature-card">
-                    <h3 className="card-title">🏆 Global Leaderboard</h3>
+                  <div className={styles.glassFeatureCard}>
+                    <h3 className={styles.cardTitle}>🏆 Global Leaderboard</h3>
                     <p className="card-text mb-4">See how you rank against other users</p>
                     <div className="table-responsive">
                       <table className="table-custom">

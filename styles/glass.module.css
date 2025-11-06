@@ -150,3 +150,16 @@
   font-size: 0.95rem;
   margin-bottom: 1rem;
 }
+
+/* Static Silk-like hue background (non-animated) */
+.silkHueBackground {
+  /* Darker, cooler tone to complement navbar - deep indigo/navy gradient with subtle blue highlights */
+  background:
+    radial-gradient(circle at 15% 25%, rgba(99, 102, 241, 0.08), transparent 25%),
+    radial-gradient(circle at 85% 75%, rgba(59, 130, 246, 0.05), transparent 30%),
+    linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #16213e 100%);
+  position: fixed;
+  inset: 0; /* top:0; right:0; bottom:0; left:0; */
+  z-index: 0;
+  pointer-events: none; /* allow interactions through the background */
+}

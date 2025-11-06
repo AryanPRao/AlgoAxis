@@ -464,12 +464,13 @@ const MagicBento = ({
       <BentoCardGrid gridRef={gridRef}>
         {cards.map((card, index) => {
           const baseClassName = `${styles.magicBentoCard || 'magic-bento-card'} ${textAutoHide ? styles.magicBentoCardTextAutohide || 'magic-bento-card--text-autohide' : ''} ${enableBorderGlow ? styles.magicBentoCardBorderGlow || 'magic-bento-card--border-glow' : ''}`;
+          // allow callers to pass `style` on individual cards to override defaults
           const cardProps = {
             className: baseClassName,
-            style: {
+            style: Object.assign({
               backgroundColor: card.color || '#060010',
               '--glow-color': glowColor
-            }
+            }, card.style || {})
           };
 
           if (enableStars) {

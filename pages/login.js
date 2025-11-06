@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useRouter } from "next/router"
 import axios from "axios"
 import { motion } from "framer-motion"
+import styles from '../styles/glass.module.css'
 
 export default function Login() {
   const router = useRouter()
@@ -51,44 +52,40 @@ export default function Login() {
   }
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "2rem",
-      }}
-    >
+    <div style={{ minHeight: "100vh", position: "relative", overflow: "hidden" }}>
+      {/* Static silk hue background (non-animated) */}
+      <div className={styles.silkHueBackground} />
+
+      <div
+        style={{
+          position: "relative",
+          zIndex: 1,
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "2rem",
+        }}
+      >
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
+        className={styles.glassFeatureCard}
         style={{
-          background: "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%)",
-          backdropFilter: "blur(10px)",
-          border: "1px solid rgba(255, 255, 255, 0.1)",
-          borderRadius: "16px",
-          padding: "3rem",
           maxWidth: "450px",
           width: "100%",
-          boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
         }}
       >
         <motion.h2
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
+          className={styles.primaryHeading}
           style={{
             textAlign: "center",
             marginBottom: "2rem",
-            background: "linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
             fontSize: "2rem",
-            fontWeight: 700,
           }}
         >
           Welcome Back ✨
@@ -192,6 +189,7 @@ export default function Login() {
           </p>
         </motion.div>
       </motion.div>
+      </div>
     </div>
   )
 }

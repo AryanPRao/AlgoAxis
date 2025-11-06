@@ -44,26 +44,21 @@ export default function Navbar() {
         { label: "Register", href: "/register" },
       ]
 
-  // Check if we're on the dashboard page
-  const isDashboard = router.pathname === "/dashboard"
-  
-  // Dynamic navbar style based on page
-  const navbarStyle = isDashboard ? {
-    background: "rgba(132, 0, 255, 0.08)",
-    backdropFilter: "blur(16px)",
-    WebkitBackdropFilter: "blur(16px)",
-    borderBottom: "1px solid rgba(132, 0, 255, 0.2)",
-    boxShadow: "0 4px 30px rgba(132, 0, 255, 0.1)"
-  } : {}
+  // Unified navbar style for all pages (consistent color/tint)
+  const navbarStyle = {
+    background: "rgba(10, 10, 15, 0.72)",
+    backdropFilter: "blur(20px)",
+    WebkitBackdropFilter: "blur(20px)",
+    borderBottom: "1px solid rgba(99, 102, 241, 0.08)",
+    boxShadow: "0 4px 30px rgba(59, 130, 246, 0.06)",
+  }
 
   return (
     <nav className={`${styles.glassNavbar} navbar-custom`} style={navbarStyle}>
       <div className="container-custom">
         <div className="d-flex justify-content-between align-items-center">
           <Link href="/" className="navbar-brand" style={{ 
-            background: isDashboard 
-              ? "linear-gradient(135deg, #a78bfa, #8b5cf6, #7c3aed)"
-              : "linear-gradient(135deg, #60A5FA, #6366F1, #8B5CF6)",
+            background: "linear-gradient(135deg, #60A5FA, #6366F1, #8B5CF6)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundClip: "text",
@@ -71,10 +66,7 @@ export default function Navbar() {
             fontWeight: 800,
             fontFamily: 'Inter',
             textShadow: "none",
-            letterSpacing: "-0.02em",
-            filter: isDashboard 
-              ? "drop-shadow(0 0 20px rgba(132, 0, 255, 0.4))"
-              : "drop-shadow(0 0 20px rgba(99, 102, 241, 0.3))"
+            filter: "drop-shadow(0 0 20px rgba(99, 102, 241, 0.3))"
           }}>
             ✨ InterviewMate
           </Link>

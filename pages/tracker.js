@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Navbar from '../components/Navbar';
 import axios from 'axios';
 import { FaPlus, FaEdit, FaTrash, FaMagic, FaLightbulb } from 'react-icons/fa';
+import styles from '../styles/glass.module.css';
 
 export default function Tracker() {
   const router = useRouter();
@@ -146,24 +147,23 @@ export default function Tracker() {
   };
 
   return (
-    <div style={{ minHeight: '100vh' }}>
+    <div style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden' }}>
+      {/* Static silk hue background (non-animated) */}
+      <div className={styles.silkHueBackground} />
+
+      {/* Content */}
+      <div style={{ position: 'relative', zIndex: 1 }}>
       <Navbar />
       
       <div className="container-custom">
-        <div className="page-header fade-in-up">
-          <h1 className="page-title" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M7 3h7l5 5v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" stroke="#9CA3AF" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M8 7h8M8 11h8" stroke="#9CA3AF" strokeWidth="0.9" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            Problem Tracker
-          </h1>
-          <p className="page-subtitle">Keep track of all your coding problems</p>
+        <div className={`${styles.pageHeaderGlass} page-header`}>
+          <h1 className={styles.primaryHeading}>Problem Tracker 📝</h1>
+          <p className={styles.subheading}>Keep track of all your coding problems</p>
         </div>
 
         <div className="mb-4 fade-in-up">
           <button 
-            className="btn btn-primary-custom me-2"
+            className={styles.glassButton + ' me-2'}
             onClick={() => {
               setEditingProblem(null);
               setFormData({
@@ -181,7 +181,7 @@ export default function Tracker() {
           </button>
           
           <button 
-            className="btn btn-success"
+            className={styles.glassButton}
             onClick={() => {
               setSelectedTopic('None');
               setRecommendations([]);
@@ -198,15 +198,9 @@ export default function Tracker() {
             <div className="spinner-custom"></div>
           </div>
         ) : problems.length === 0 ? (
-          <div className="feature-card text-center fade-in-up">
-            <h3 className="card-title" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center' }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="12" cy="12" r="9" stroke="#9CA3AF" strokeWidth="1.2" />
-                <path d="M12 8v8M8 12h8" stroke="#9CA3AF" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              No Problems Yet
-            </h3>
-            <p className="card-text">Start by adding your first coding problem!</p>
+          <div className={styles.glassFeatureCard + ' text-center fade-in-up'}>
+            <h3 className={styles.cardTitle}>No Problems Yet 🎯</h3>
+            <p className={styles.cardDescription}>Start by adding your first coding problem!</p>
           </div>
         ) : (
           <div className="table-responsive fade-in-up">
@@ -484,6 +478,7 @@ export default function Tracker() {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 }

@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Navbar from '../components/Navbar';
+import MagicBento from '../components/MagicBento';
 import axios from 'axios';
 import { FaFileUpload, FaFilePdf, FaDownload, FaMagic } from 'react-icons/fa';
+import styles from '../styles/glass.module.css';
+import { motion } from 'framer-motion';
 
 export default function Upload() {
   const router = useRouter();
@@ -45,7 +48,7 @@ export default function Upload() {
         alert('Please select a PDF file');
         return;
       }
-      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+      if (file.size > 5 * 1024 * 1024) {
         alert('File size must be less than 5MB');
         return;
       }
@@ -126,167 +129,288 @@ export default function Upload() {
   };
 
   return (
-    <div style={{ minHeight: '100vh' }}>
-      <Navbar />
-      
-      <div className="container mt-5">
-        <div className="text-center mb-5">
-          <h1 style={{ color: 'white', fontWeight: 'bold' }}>Resume Upload & Analysis 📄</h1>
-          <p style={{ color: 'rgba(255,255,255,0.9)' }}>Upload your resume and get AI-powered feedback</p>
-        </div>
+    <div style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden' }}>
+      <div className={styles.silkHueBackground} />
 
-        {/* Upload Section */}
-        <div className="row mb-4">
-          <div className="col-12">
-            <div className="card shadow">
-              <div className="card-body p-4">
-                <h3 className="mb-3">Upload & Analyze Resume</h3>
-                <p className="text-muted mb-4">
-                  Upload your resume in PDF format (max 5MB). Get instant AI analysis or store it securely on AWS S3.
-                </p>
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <Navbar />
+        
+        <div className="container-custom">
+          <motion.div 
+            className={`${styles.pageHeaderGlass} text-center mb-5`}
+            initial={{ opacity: 0, y: -30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h1 className={styles.primaryHeading}>Resume Upload & Analysis</h1>
+            <p className={styles.subheading}>Upload your resume and get AI-powered feedback</p>
+          </motion.div>
+          <MagicBento
+            textAutoHide={false}
+            enableStars={true}
+            enableSpotlight={true}
+            enableBorderGlow={true}
+            enableTilt={true}
+            enableMagnetism={true}
+            clickEffect={true}
+            spotlightRadius={300}
+            particleCount={8}
+            glowColor="99, 102, 241"
+            cards={[
+              {
+                color: '#0a0118',
+                title: 'Upload & Analyze',
+                label: 'Resume Manager',
+                style: { aspectRatio: 'unset', minHeight: '380px' },
+                content: (
+                  <div>
+                    <p className={styles.cardDescription} style={{ marginBottom: '1.5rem' }}>
+                      Upload your resume in PDF format (max 5MB). Get instant AI analysis or store it securely on AWS S3.
+                    </p>
 
-                {uploadSuccess && (
-                  <div className="alert alert-success mb-4">
-                    ✅ Resume uploaded successfully to AWS S3!
-                  </div>
-                )}
+                    {uploadSuccess && (
+                      <motion.div 
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        style={{
+                          padding: '0.75rem 1rem',
+                          marginBottom: '1.5rem',
+                          borderRadius: '12px',
+                          background: 'rgba(34, 197, 94, 0.1)',
+                          border: '1px solid rgba(34, 197, 94, 0.3)',
+                          color: '#86efac',
+                          fontSize: '0.9rem'
+                        }}
+                      >
+                        Resume uploaded successfully to AWS S3!
+                      </motion.div>
+                    )}
 
-                <div className="mb-4">
-                  <label className="form-label fw-bold">Select PDF Resume</label>
-                  <input
-                    type="file"
-                    id="fileInput"
-                    accept=".pdf"
-                    onChange={handleFileSelect}
-                    className="form-control"
-                  />
-                  {selectedFile && (
-                    <div className="mt-2">
-                      <span style={{ color: '#667eea', fontWeight: 600 }}>
-                        📄 {selectedFile.name} ({(selectedFile.size / 1024).toFixed(2)} KB)
-                      </span>
+                    <div style={{ marginBottom: '1.5rem' }}>
+                      <label style={{ 
+                        display: 'block',
+                        marginBottom: '0.5rem',
+                        fontWeight: 600,
+                        color: '#D1D5DB',
+                        fontSize: '0.9rem'
+                      }}>
+                        Select PDF Resume
+                      </label>
+
+                      {/* Hidden file input + styled label button to ensure placement inside the card */}
+                      <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap', flexDirection: 'column', alignContent: 'center', width: '100%' }}>
+                        <label htmlFor="fileInput" className={styles.glassButton} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', width: '100%', margin: '0 auto', padding: '0.75rem 1rem' }}>
+                          <FaFilePdf style={{ marginRight: '0.5rem' }} />
+                          Choose PDF
+                        </label>
+                        <input
+                          type="file"
+                          id="fileInput"
+                          accept=".pdf"
+                          onChange={handleFileSelect}
+                          style={{ display: 'none' }}
+                        />
+
+                        {selectedFile && (
+                          <div style={{ marginTop: '0.75rem', marginLeft: 0, textAlign: 'center' }}>
+                            <span style={{ color: '#60A5FA', fontWeight: 600, fontSize: '0.9rem' }}>
+                              {selectedFile.name} ({(selectedFile.size / 1024).toFixed(2)} KB)
+                            </span>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  )}
-                </div>
 
-                <div className="d-flex gap-2 flex-wrap">
-                  <button 
-                    className="btn btn-success"
-                    onClick={handleAnalyze}
-                    disabled={!selectedFile || analyzing}
-                    style={{ pointerEvents: 'auto' }}
-                  >
-                    <FaMagic className="me-2" />
-                    {analyzing ? 'Analyzing with AI...' : 'Analyze with Gemini AI'}
-                  </button>
-                  
-                  <button 
-                    className="btn btn-primary"
-                    onClick={handleUpload}
-                    disabled={!selectedFile || uploading}
-                    style={{ pointerEvents: 'auto' }}
-                  >
-                    {uploading ? 'Uploading...' : 'Upload to AWS S3'}
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* AI Analysis Results */}
-        {showAnalysis && analysis && (
-          <div className="row mb-4">
-            <div className="col-12">
-              <div className="card shadow border-success">
-                <div className="card-header bg-success text-white">
-                  <h4 className="mb-0">
-                    <FaMagic className="me-2" />
-                    AI Resume Analysis {candidateName && candidateName !== 'the candidate' && `for ${candidateName}`}
-                  </h4>
-                </div>
-                <div className="card-body p-4">
-                  <div style={{ 
-                    whiteSpace: 'pre-wrap', 
-                    lineHeight: '1.8',
-                    fontSize: '1rem'
-                  }}>
-                    {analysis}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Uploaded Resumes List */}
-        <div className="row mb-5">
-          <div className="col-12">
-            <div className="card shadow">
-              <div className="card-body p-4">
-                <h3 className="mb-3">Your Uploaded Resumes</h3>
-                
-                {loading ? (
-                  <div className="text-center py-5">
-                    <div className="spinner-border text-primary" role="status">
-                      <span className="visually-hidden">Loading...</span>
+                    <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+                      <motion.button 
+                        className={styles.glassButton}
+                        onClick={handleAnalyze}
+                        disabled={!selectedFile || analyzing}
+                        whileHover={{ scale: selectedFile && !analyzing ? 1.05 : 1 }}
+                        whileTap={{ scale: selectedFile && !analyzing ? 0.95 : 1 }}
+                        style={{ 
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          pointerEvents: 'auto',
+                          opacity: !selectedFile || analyzing ? 0.5 : 1,
+                          cursor: !selectedFile || analyzing ? 'not-allowed' : 'pointer'
+                        }}
+                      >
+                        <FaMagic style={{ marginRight: '0.5rem' }} />
+                        {analyzing ? 'Analyzing...' : 'Analyze with AI'}
+                      </motion.button>
+                      
+                      <motion.button 
+                        className={styles.glassButton}
+                        onClick={handleUpload}
+                        disabled={!selectedFile || uploading}
+                        whileHover={{ scale: selectedFile && !uploading ? 1.05 : 1 }}
+                        whileTap={{ scale: selectedFile && !uploading ? 0.95 : 1 }}
+                        style={{ 
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          pointerEvents: 'auto',
+                          opacity: !selectedFile || uploading ? 0.5 : 1,
+                          cursor: !selectedFile || uploading ? 'not-allowed' : 'pointer',
+                          background: 'linear-gradient(135deg, #8B5CF6, #6366F1)'
+                        }}
+                      >
+                        <FaFileUpload style={{ marginRight: '0.5rem' }} />
+                        {uploading ? 'Uploading...' : 'Upload to S3'}
+                      </motion.button>
                     </div>
                   </div>
-                ) : resumes.length === 0 ? (
-                  <div className="text-center py-5">
-                    <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>📭</div>
-                    <p className="text-muted">No resumes uploaded yet</p>
+                )
+              },
+              {
+                color: '#0a0118',
+                title: 'AI Analysis',
+                label: 'Results',
+                content: showAnalysis && analysis ? (
+                  <div>
+                    <div style={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      marginBottom: '1rem',
+                      gap: '0.5rem'
+                    }}>
+                      <FaMagic style={{ color: '#86efac', fontSize: '1.25rem' }} />
+                      <h3 className={styles.cardTitle} style={{ margin: 0 }}>
+                        AI Resume Analysis
+                      </h3>
+                    </div>
+                    {candidateName && candidateName !== 'the candidate' && (
+                      <p className={styles.cardDescription} style={{ marginBottom: '1rem' }}>
+                        Analysis for <strong style={{ color: '#60A5FA' }}>{candidateName}</strong>
+                      </p>
+                    )}
+                    <div style={{ 
+                      whiteSpace: 'pre-wrap', 
+                      lineHeight: '1.8',
+                      fontSize: '0.9rem',
+                      color: '#D1D5DB',
+                      maxHeight: '400px',
+                      overflowY: 'auto',
+                      padding: '1rem',
+                      background: 'rgba(255, 255, 255, 0.02)',
+                      borderRadius: '12px',
+                      border: '1px solid rgba(255, 255, 255, 0.05)'
+                    }}>
+                      {analysis}
+                    </div>
                   </div>
                 ) : (
-                  <div className="table-responsive">
-                    <table className="table table-hover">
-                      <thead className="table-light">
-                        <tr>
-                          <th>Filename</th>
-                          <th>Upload Date</th>
-                          <th>Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {resumes.map((resume) => (
-                          <tr key={resume.id}>
-                            <td>
-                              <FaFilePdf style={{ color: '#f56565', marginRight: '0.5rem' }} />
-                              <strong>{resume.filename}</strong>
-                            </td>
-                            <td>{new Date(resume.uploaded_at).toLocaleString()}</td>
-                            <td>
-                              <a 
-                                href={resume.file_url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="btn btn-sm btn-primary"
-                              >
-                                <FaDownload style={{ marginRight: '0.3rem' }} />
-                                Download
-                              </a>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2rem 0', height: '100%' }}>
+                    <div style={{ fontSize: '3rem', marginBottom: '1rem', opacity: 0.6 }}><FaMagic /></div>
+                    <p className={styles.cardDescription} style={{ textAlign: 'center', maxWidth: '85%', margin: 0, lineHeight: 1.6, fontSize: '0.95rem' }}>
+                      Upload a resume and click "Analyze with AI" to see detailed feedback
+                    </p>
                   </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
+                )
+              }
+            ]}
+          />
 
-        {/* Info Cards */}
-        <div className="row mb-5">
-          <div className="col-md-4 mb-3">
-            <div className="card shadow h-100">
-              <div className="card-body">
-                <h5 className="card-title">🤖 AI-Powered Analysis</h5>
-                <p className="card-text">
-                  Get instant feedback on your resume using Google's Gemini AI:
+          {/* Storage rectangular box placed below the two Bento cards for a cleaner layout */}
+          <div style={{
+            marginTop: '1.5rem',
+            padding: '1.25rem',
+            borderRadius: '18px',
+            background: 'rgba(10, 1, 24, 0.6)',
+            border: '1px solid rgba(255,255,255,0.04)',
+            boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.02)',
+            backdropFilter: 'blur(8px)'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+              <h3 className={styles.cardTitle} style={{ margin: 0 }}>Your Uploaded Resumes</h3>
+            </div>
+
+            {loading ? (
+              <div style={{ textAlign: 'center', padding: '2rem 0' }}>
+                <div className="spinner-custom"></div>
+              </div>
+            ) : resumes.length === 0 ? (
+              <div style={{ textAlign: 'center', padding: '2rem 0' }}>
+                <div style={{ fontSize: '3rem', marginBottom: '1rem', opacity: 0.5 }}><FaFilePdf /></div>
+                <p className={styles.cardDescription}>No resumes uploaded yet</p>
+              </div>
+            ) : (
+              <div style={{ maxHeight: '420px', overflowY: 'auto', overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: '0 0.5rem' }}>
+                  <thead>
+                    <tr>
+                      <th style={{ color: '#9CA3AF', fontWeight: 600, fontSize: '0.85rem', padding: '0.5rem', textAlign: 'left', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>Filename</th>
+                      <th style={{ color: '#9CA3AF', fontWeight: 600, fontSize: '0.85rem', padding: '0.5rem', textAlign: 'left', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>Upload Date</th>
+                      <th style={{ color: '#9CA3AF', fontWeight: 600, fontSize: '0.85rem', padding: '0.5rem', textAlign: 'left', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {resumes.map((resume) => (
+                      <tr key={resume.id}>
+                        <td style={{ padding: '0.75rem 0.5rem' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                            <FaFilePdf style={{ color: '#f56565' }} />
+                            <strong style={{ color: '#F3F4F6', fontSize: '0.9rem' }}>{resume.filename}</strong>
+                          </div>
+                        </td>
+                        <td style={{ padding: '0.75rem 0.5rem', color: '#9CA3AF', fontSize: '0.85rem' }}>{new Date(resume.uploaded_at).toLocaleDateString()}</td>
+                        <td style={{ padding: '0.75rem 0.5rem' }}>
+                          <motion.a href={resume.file_url} target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', padding: '0.4rem 0.8rem', borderRadius: '8px', background: 'linear-gradient(135deg, #60A5FA, #3B82F6)', color: '#F9FAFB', fontSize: '0.8rem', fontWeight: 500, textDecoration: 'none', border: '1px solid rgba(59,130,246,0.3)' }}>
+                            <FaDownload />
+                            Download
+                          </motion.a>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+
+          {/* Info Footer Section */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            style={{ 
+              marginTop: '3rem',
+              marginBottom: '3rem'
+            }}
+          >
+            <div style={{ 
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+              gap: '1.5rem',
+              padding: '2rem',
+              background: 'rgba(255, 255, 255, 0.02)',
+              borderRadius: '20px',
+              border: '1px solid rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(10px)'
+            }}>
+              <div>
+                <h5 style={{ 
+                  color: '#F3F4F6',
+                  fontSize: '1.1rem',
+                  fontWeight: 600,
+                  marginBottom: '0.75rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
+                }}>
+                  <FaMagic style={{ color: '#86efac' }} />
+                  AI-Powered Analysis
+                </h5>
+                <p className={styles.cardDescription} style={{ marginBottom: '1rem' }}>
+                  Get instant feedback using Google's Gemini AI:
                 </p>
-                <ul className="text-muted small">
+                <ul style={{ 
+                  color: '#9CA3AF',
+                  fontSize: '0.85rem',
+                  lineHeight: '1.8',
+                  paddingLeft: '1.25rem',
+                  margin: 0
+                }}>
                   <li>Overall impression & strengths</li>
                   <li>Areas for improvement</li>
                   <li>Technical skills assessment</li>
@@ -294,34 +418,58 @@ export default function Upload() {
                   <li>Actionable recommendations</li>
                 </ul>
               </div>
-            </div>
-          </div>
 
-          <div className="col-md-4 mb-3">
-            <div className="card shadow h-100">
-              <div className="card-body">
-                <h5 className="card-title">☁️ Secure Cloud Storage</h5>
-                <p className="card-text">
+              <div>
+                <h5 style={{ 
+                  color: '#F3F4F6',
+                  fontSize: '1.1rem',
+                  fontWeight: 600,
+                  marginBottom: '0.75rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
+                }}>
+                  ☁️ Secure Cloud Storage
+                </h5>
+                <p className={styles.cardDescription} style={{ marginBottom: '1rem' }}>
                   Your resumes are stored securely on Amazon S3:
                 </p>
-                <ul className="text-muted small">
+                <ul style={{ 
+                  color: '#9CA3AF',
+                  fontSize: '0.85rem',
+                  lineHeight: '1.8',
+                  paddingLeft: '1.25rem',
+                  margin: 0
+                }}>
                   <li>99.999999999% durability</li>
                   <li>Encrypted at rest and in transit</li>
                   <li>Scalable and cost-effective</li>
                   <li>Accessible from anywhere</li>
                 </ul>
               </div>
-            </div>
-          </div>
 
-          <div className="col-md-4 mb-3">
-            <div className="card shadow h-100">
-              <div className="card-body">
-                <h5 className="card-title">🔒 Privacy & Security</h5>
-                <p className="card-text">
+              <div>
+                <h5 style={{ 
+                  color: '#F3F4F6',
+                  fontSize: '1.1rem',
+                  fontWeight: 600,
+                  marginBottom: '0.75rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
+                }}>
+                  🔒 Privacy & Security
+                </h5>
+                <p className={styles.cardDescription} style={{ marginBottom: '1rem' }}>
                   We take your privacy seriously:
                 </p>
-                <ul className="text-muted small">
+                <ul style={{ 
+                  color: '#9CA3AF',
+                  fontSize: '0.85rem',
+                  lineHeight: '1.8',
+                  paddingLeft: '1.25rem',
+                  margin: 0
+                }}>
                   <li>Only accessible by you</li>
                   <li>Protected by AWS IAM policies</li>
                   <li>AI analysis is instant & private</li>
@@ -329,7 +477,7 @@ export default function Upload() {
                 </ul>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>
