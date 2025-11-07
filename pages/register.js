@@ -75,7 +75,7 @@ export default function Register() {
       <div className={styles.silkHueBackground} />
 
       {/* Centered content wrapper */}
-      <div style={{ 
+      <div className="container-custom" style={{ 
         position: "relative", 
         zIndex: 1, 
         minHeight: "100vh", 
@@ -86,7 +86,7 @@ export default function Register() {
       }}>
         <div className={styles.glassFeatureCard} style={{ maxWidth: "450px", width: "100%" }}>
           <h2 className={styles.primaryHeading} style={{ textAlign: "center", fontSize: "2rem", marginBottom: "1.5rem" }}>
-            Create Account ✨
+            Create Account
           </h2>
 
           {error && (

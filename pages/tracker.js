@@ -274,11 +274,13 @@ export default function Tracker() {
           onClick={() => setShowModal(false)}
         >
           <div className="modal-dialog modal-dialog-centered" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-content" style={{ borderRadius: '20px', border: 'none' }}>
+            <div className={`${styles.glassCard} modal-content`} style={{ borderRadius: '20px' }}>
               <div className="modal-header" style={{ 
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
                 color: 'white',
-                borderRadius: '20px 20px 0 0'
+                borderRadius: '20px 20px 0 0',
+                border: '1px solid rgba(59,130,246,0.3)',
+                boxShadow: '0 4px 16px rgba(59,130,246,0.15)'
               }}>
                 <h5 className="modal-title">
                   {editingProblem ? 'Edit Problem' : 'Add New Problem'}
@@ -358,7 +360,7 @@ export default function Tracker() {
                   </div>
 
                   <div className="d-flex gap-2">
-                    <button type="submit" className="btn btn-primary-custom flex-grow-1">
+                    <button type="submit" className="btn btn-primary-custom grow">
                       {editingProblem ? 'Update Problem' : 'Add Problem'}
                     </button>
                     <button 
@@ -384,19 +386,13 @@ export default function Tracker() {
           onClick={() => setShowSuggestModal(false)}
         >
           <div className="modal-dialog modal-dialog-centered modal-lg" onClick={(e) => e.stopPropagation()}>
-            <div
-              className={`${styles.glassCard} modal-content`}
-              style={{
-                borderRadius: '20px',
-                background: 'linear-gradient(180deg, rgba(15,9,30,0.94), rgba(23,13,39,0.96))'
-              }}
-            >
+            <div className={`${styles.glassCard} modal-content`} style={{ borderRadius: '20px' }}>
               <div className="modal-header" style={{ 
                 background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
                 color: 'white',
                 borderRadius: '20px 20px 0 0',
-                border: '1px solid rgba(99,102,241,0.10)',
-                boxShadow: '0 8px 28px rgba(99,102,241,0.10)'
+                border: '1px solid rgba(59,130,246,0.3)',
+                boxShadow: '0 4px 16px rgba(59,130,246,0.15)'
               }}>
                 <h5 className="modal-title">
                   <FaMagic className="me-2" />
@@ -418,7 +414,7 @@ export default function Tracker() {
                   <AnimatedList
                     items={topics}
                     onItemSelect={(item) => setSelectedTopic(item)}
-                    showGradients={true}
+                    showGradients={false}
                     enableArrowNavigation={true}
                     displayScrollbar={true}
                     initialSelectedIndex={topics.indexOf(selectedTopic)}
@@ -453,7 +449,7 @@ export default function Tracker() {
                       {recommendations.map((rec, index) => (
                         <div key={index} className="list-group-item">
                           <div className="d-flex justify-content-between align-items-start">
-                            <div className="flex-grow-1">
+                            <div className="grow">
                               <h6 className="mb-1">{rec.problem_name}</h6>
                               <div className="mb-2">
                                 <span className={`badge ${

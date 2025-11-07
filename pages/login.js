@@ -56,7 +56,7 @@ export default function Login() {
       {/* Static silk hue background (non-animated) */}
       <div className={styles.silkHueBackground} />
 
-      <div
+      <div className="container-custom"
         style={{
           position: "relative",
           zIndex: 1,
@@ -84,11 +84,11 @@ export default function Login() {
           className={styles.primaryHeading}
           style={{
             textAlign: "center",
-            marginBottom: "2rem",
+            marginBottom: "1.5rem",
             fontSize: "2rem",
           }}
         >
-          Welcome Back ✨
+          Welcome Back
         </motion.h2>
 
         {error && (
