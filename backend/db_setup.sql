@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS problems (
     difficulty ENUM('Easy', 'Medium', 'Hard') NOT NULL,
     topic VARCHAR(100) NOT NULL,
     summary TEXT,
+    notes TEXT,
     points INT NOT NULL DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,

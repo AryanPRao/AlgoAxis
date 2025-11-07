@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Navbar from '../components/Navbar';
 import axios from 'axios';
-import { FaPlus, FaEdit, FaTrash, FaMagic, FaLightbulb } from 'react-icons/fa';
+import { FaPlus, FaEdit, FaTrash, FaMagic, FaLightbulb, FaStickyNote } from 'react-icons/fa';
 
 export default function Tracker() {
   const router = useRouter();
@@ -10,7 +10,9 @@ export default function Tracker() {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [showSuggestModal, setShowSuggestModal] = useState(false);
+  const [showNotesModal, setShowNotesModal] = useState(false);
   const [editingProblem, setEditingProblem] = useState(null);
+  const [selectedProblem, setSelectedProblem] = useState(null);
   const [selectedTopic, setSelectedTopic] = useState('None');
   const [loadingRecommendations, setLoadingRecommendations] = useState(false);
   const [recommendations, setRecommendations] = useState([]);
@@ -19,7 +21,8 @@ export default function Tracker() {
     name: '',
     difficulty: 'Easy',
     topic: '',
-    summary: ''
+    summary: '',
+    notes: ''
   });
 
   const topics = ['None', 'Arrays', 'Strings', 'Linked Lists', 'Trees', 'Graphs', 'Dynamic Programming', 
@@ -94,7 +97,8 @@ export default function Tracker() {
       name: problem.name,
       difficulty: problem.difficulty,
       topic: problem.topic,
-      summary: problem.summary || ''
+      summary: problem.summary || '',
+      notes: problem.notes || ''
     });
     setShowModal(true);
   };
@@ -136,6 +140,11 @@ export default function Tracker() {
     }
   };
 
+  const handleViewNotes = (problem) => {
+    setSelectedProblem(problem);
+    setShowNotesModal(true);
+  };
+
   const getDifficultyBadge = (difficulty) => {
     const classes = {
       Easy: 'badge-easy',
@@ -165,7 +174,8 @@ export default function Tracker() {
                 name: '',
                 difficulty: 'Easy',
                 topic: '',
-                summary: ''
+                summary: '',
+                notes: ''
               });
               setShowModal(true);
             }}
@@ -230,6 +240,14 @@ export default function Tracker() {
                     <td><strong>{problem.points}</strong></td>
                     <td>{new Date(problem.created_at).toLocaleDateString()}</td>
                     <td>
+                      <button 
+                        className="btn btn-sm btn-info me-2"
+                        onClick={() => handleViewNotes(problem)}
+                        style={{ padding: '0.4rem 0.8rem' }}
+                        title="View Notes"
+                      >
+                        <FaStickyNote />
+                      </button>
                       <button 
                         className="btn btn-sm btn-primary-custom me-2"
                         onClick={() => handleEdit(problem)}
@@ -346,6 +364,17 @@ export default function Tracker() {
                       rows="3"
                       placeholder="Brief notes about the problem..."
                       value={formData.summary}
+                      onChange={handleChange}
+                    ></textarea>
+                  </div>
+                  <div className="mb-3">
+                    <label className="form-label-custom">Notes (Optional)</label>
+                    <textarea
+                      name="notes"
+                      className="form-control form-control-custom"
+                      rows="4"
+                      placeholder="Your detailed notes or insights about this problem..."
+                      value={formData.notes}
                       onChange={handleChange}
                     ></textarea>
                   </div>
@@ -467,6 +496,78 @@ export default function Tracker() {
                     <p>Click "Get Recommendations" to see suggested problems</p>
                   </div>
                 )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* View Notes Modal */}
+      {showNotesModal && selectedProblem && (
+        <div 
+          className="modal fade show" 
+          style={{ display: 'block', background: 'rgba(0,0,0,0.5)' }}
+          onClick={() => setShowNotesModal(false)}
+        >
+          <div className="modal-dialog modal-dialog-centered modal-lg" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-content">
+              <div className="modal-header bg-info text-white">
+                <h5 className="modal-title">
+                  <FaStickyNote className="me-2" />
+                  Notes: {selectedProblem.name}
+                </h5>
+                <button 
+                  type="button" 
+                  className="btn-close btn-close-white" 
+                  onClick={() => setShowNotesModal(false)}
+                ></button>
+              </div>
+              <div className="modal-body p-4">
+                <div className="mb-3">
+                  <span className="badge bg-secondary me-2">{selectedProblem.difficulty}</span>
+                  <span className="badge bg-primary">{selectedProblem.topic}</span>
+                </div>
+
+                {selectedProblem.summary && (
+                  <div className="mb-3">
+                    <h6 className="fw-bold">Summary:</h6>
+                    <p className="text-muted">{selectedProblem.summary}</p>
+                  </div>
+                )}
+
+                {selectedProblem.notes ? (
+                  <div>
+                    <h6 className="fw-bold">Notes:</h6>
+                    <div className="p-3 bg-light rounded" style={{ whiteSpace: 'pre-wrap', fontFamily: 'monospace', fontSize: '0.9rem' }}>
+                      {selectedProblem.notes}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-center text-muted py-4">
+                    <FaStickyNote size={40} className="mb-2 opacity-50" />
+                    <p>No notes added yet. Click "Edit" to add notes.</p>
+                  </div>
+                )}
+              </div>
+              <div className="modal-footer">
+                <button 
+                  type="button" 
+                  className="btn btn-secondary"
+                  onClick={() => setShowNotesModal(false)}
+                >
+                  Close
+                </button>
+                <button 
+                  type="button" 
+                  className="btn btn-primary"
+                  onClick={() => {
+                    setShowNotesModal(false);
+                    handleEdit(selectedProblem);
+                  }}
+                >
+                  <FaEdit className="me-2" />
+                  Edit Problem
+                </button>
               </div>
             </div>
           </div>

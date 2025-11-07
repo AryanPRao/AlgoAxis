@@ -206,9 +206,10 @@ def add_problem():
         difficulty = data.get('difficulty')
         topic = data.get('topic')
         summary = data.get('summary', '')
+        notes = data.get('notes', '')
         
         if not all([user_id, number, name, difficulty, topic]):
-            return jsonify({'error': 'All fields except summary are required'}), 400
+            return jsonify({'error': 'All fields except summary and notes are required'}), 400
         
         # Calculate points based on difficulty
         points = {'Easy': 10, 'Medium': 25, 'Hard': 50}.get(difficulty, 10)
@@ -217,9 +218,9 @@ def add_problem():
         cursor = conn.cursor()
         
         cursor.execute(
-            '''INSERT INTO problems (user_id, number, name, difficulty, topic, summary, points)
-               VALUES (%s, %s, %s, %s, %s, %s, %s)''',
-            (user_id, number, name, difficulty, topic, summary, points)
+            '''INSERT INTO problems (user_id, number, name, difficulty, topic, summary, notes, points)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s)''',
+            (user_id, number, name, difficulty, topic, summary, notes, points)
         )
         conn.commit()
         problem_id = cursor.lastrowid
@@ -266,6 +267,9 @@ def update_problem(problem_id):
         if 'summary' in data:
             update_fields.append('summary = %s')
             values.append(data['summary'])
+        if 'notes' in data:
+            update_fields.append('notes = %s')
+            values.append(data['notes'])
         
         if not update_fields:
             return jsonify({'error': 'No fields to update'}), 400
@@ -583,6 +587,116 @@ Resume Text:
         
     except Exception as e:
         return jsonify({'error': f'Analysis error: {str(e)}'}), 500
+
+# ========== PROBLEM NOTES ENDPOINTS ==========
+
+@app.route('/api/notes/<int:problem_id>', methods=['GET'])
+def get_notes(problem_id):
+    try:
+        user_id = request.args.get('user_id')
+        if not user_id:
+            return jsonify({'error': 'user_id required'}), 400
+        
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        cursor.execute(
+            'SELECT * FROM problem_notes WHERE problem_id = %s AND user_id = %s',
+            (problem_id, user_id)
+        )
+        notes = cursor.fetchone()
+        
+        cursor.close()
+        conn.close()
+        
+        return jsonify(notes if notes else {}), 200
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/notes', methods=['POST'])
+def create_or_update_notes():
+    try:
+        data = request.json
+        problem_id = data.get('problem_id')
+        user_id = data.get('user_id')
+        approach = data.get('approach', '')
+        solution_code = data.get('solution_code', '')
+        time_complexity = data.get('time_complexity', '')
+        space_complexity = data.get('space_complexity', '')
+        key_insights = data.get('key_insights', '')
+        mistakes_made = data.get('mistakes_made', '')
+        related_problems = data.get('related_problems', '')
+        
+        if not all([problem_id, user_id]):
+            return jsonify({'error': 'problem_id and user_id required'}), 400
+        
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        # Check if notes already exist
+        cursor.execute(
+            'SELECT id FROM problem_notes WHERE problem_id = %s AND user_id = %s',
+            (problem_id, user_id)
+        )
+        existing = cursor.fetchone()
+        
+        if existing:
+            # Update existing notes
+            cursor.execute(
+                '''UPDATE problem_notes SET 
+                   approach = %s, solution_code = %s, time_complexity = %s, 
+                   space_complexity = %s, key_insights = %s, mistakes_made = %s, 
+                   related_problems = %s, updated_at = CURRENT_TIMESTAMP
+                   WHERE problem_id = %s AND user_id = %s''',
+                (approach, solution_code, time_complexity, space_complexity, 
+                 key_insights, mistakes_made, related_problems, problem_id, user_id)
+            )
+            message = 'Notes updated successfully'
+        else:
+            # Create new notes
+            cursor.execute(
+                '''INSERT INTO problem_notes 
+                   (problem_id, user_id, approach, solution_code, time_complexity, 
+                    space_complexity, key_insights, mistakes_made, related_problems)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)''',
+                (problem_id, user_id, approach, solution_code, time_complexity, 
+                 space_complexity, key_insights, mistakes_made, related_problems)
+            )
+            message = 'Notes created successfully'
+        
+        conn.commit()
+        cursor.close()
+        conn.close()
+        
+        return jsonify({'message': message}), 200
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/notes/<int:problem_id>', methods=['DELETE'])
+def delete_notes(problem_id):
+    try:
+        user_id = request.args.get('user_id')
+        if not user_id:
+            return jsonify({'error': 'user_id required'}), 400
+        
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        cursor.execute(
+            'DELETE FROM problem_notes WHERE problem_id = %s AND user_id = %s',
+            (problem_id, user_id)
+        )
+        conn.commit()
+        
+        cursor.close()
+        conn.close()
+        
+        return jsonify({'message': 'Notes deleted successfully'}), 200
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 # ========== AI PROBLEM RECOMMENDATION ENDPOINT ==========
 
