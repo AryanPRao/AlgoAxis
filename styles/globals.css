@@ -448,26 +448,27 @@ html {
 
 /* Table Styles */
 .table-custom {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
+  background: rgba(10, 1, 24, 0.6);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
 }
 
 .table-custom thead {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(6, 182, 212, 0.2) 100%);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(139, 92, 246, 0.25) 100%);
   color: white;
-  border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+  border-bottom: 1px solid rgba(99, 102, 241, 0.3);
 }
 
 .table-custom thead th {
-  font-weight: 700;
-  padding: 1.25rem;
+  font-weight: 600;
+  padding: 1rem 1.25rem;
   border: none;
-  color: #f1f5f9;
-  font-size: 0.95rem;
+  color: #F3F4F6;
+  font-size: 0.9rem;
+  font-family: 'Inter', -apple-system, sans-serif;
 }
 
 .table-custom tbody tr {
@@ -476,14 +477,37 @@ html {
 }
 
 .table-custom tbody tr:hover {
-  background: rgba(59, 130, 246, 0.1);
-  transform: scale(1.01);
+  background: rgba(99, 102, 241, 0.08);
+  transform: translateY(-2px);
 }
 
 .table-custom tbody td {
-  padding: 1.25rem;
+  padding: 1rem 1.25rem;
   vertical-align: middle;
-  color: rgba(241, 245, 249, 0.9);
+  color: #D1D5DB;
+  font-size: 0.95rem;
+}
+
+/* Ensure Bootstrap's .table default white backgrounds are overridden
+   so the table sits visually on the dark glass card container */
+.table.table-custom {
+  background: transparent;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table.table-custom thead,
+.table.table-custom tbody,
+.table.table-custom tr,
+.table.table-custom th,
+.table.table-custom td {
+  background: transparent !important;
+}
+
+.table.table-custom thead th {
+  /* keep header gradient but don't let bootstrap white bleed through */
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(139, 92, 246, 0.25) 100%);
 }
 
 /* Badge Styles */

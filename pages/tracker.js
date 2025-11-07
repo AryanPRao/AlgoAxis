@@ -28,6 +28,8 @@ export default function Tracker() {
                   'Greedy', 'Backtracking', 'Binary Search', 'Sorting', 'Hash Tables', 'Stacks & Queues',
                   'Heaps', 'Bit Manipulation', 'Math', 'Recursion', 'Sliding Window', 'Two Pointers'];
 
+  
+
   useEffect(() => {
     const userId = localStorage.getItem('user_id');
     if (!userId) {
@@ -44,6 +46,8 @@ export default function Tracker() {
       setProblems(response.data);
     } catch (error) {
       console.error('Error fetching problems:', error);
+      // On error, keep problems empty so UI shows the empty state
+      setProblems([]);
     } finally {
       setLoading(false);
     }
@@ -204,8 +208,16 @@ export default function Tracker() {
             <p className={styles.cardDescription}>Start by adding your first coding problem!</p>
           </div>
         ) : (
-          <div className="table-responsive fade-in-up">
-            <table className="table table-custom">
+          <div style={{
+            padding: '1.5rem',
+            borderRadius: '20px',
+            background: 'rgba(10, 1, 24, 0.4)',
+            border: '1px solid rgba(255,255,255,0.06)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+            backdropFilter: 'blur(12px)'
+          }} className="fade-in-up">
+            <div className="table-responsive">
+              <table className="table table-custom">
               <thead>
                 <tr>
                   <th>Number</th>
@@ -262,6 +274,7 @@ export default function Tracker() {
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
         )}
       </div>
