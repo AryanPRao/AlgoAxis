@@ -1,0 +1,8 @@
+{
+  "_app.js -> bootstrap/dist/js/bootstrap.bundle.min.js": {
+    "id": "_app.js -> bootstrap/dist/js/bootstrap.bundle.min.js",
+    "files": [
+      "static/chunks/node_modules_pnpm_bootstrap_5_3_8__popperjs_core_2_11_8_node_modules_bootstrap_dist_js_bootst-fb691b.js"
+    ]
+  }
+}

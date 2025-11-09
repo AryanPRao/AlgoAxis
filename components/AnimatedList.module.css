@@ -76,3 +76,30 @@
   transition: opacity 0.25s ease;
   border-radius: 8px;
 }
+
+/* Light mode overrides: make the list items lightly coloured and text dark
+   to match the magic bento look. Use strong specificity to override the
+   default dark styles from the module. */
+[data-theme='light'] .scrollList {
+  background: transparent !important;
+}
+
+[data-theme='light'] .item {
+  background-color: var(--bento-bg) !important;
+  border: 1px solid var(--bento-border) !important;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06) !important;
+}
+
+[data-theme='light'] .selected {
+  background-color: calc(var(--bento-bg) + 0%) !important;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.08) !important;
+}
+
+[data-theme='light'] .itemText {
+  color: var(--text-primary) !important;
+}
+
+/* Make the custom scrollbar thumb lighter in light mode */
+[data-theme='light'] .scrollList::-webkit-scrollbar-thumb {
+  background: rgba(15,23,42,0.2) !important;
+}

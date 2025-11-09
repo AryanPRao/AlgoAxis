@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/globals.css';
 import { useEffect } from 'react';
+import { ThemeProvider } from '../contexts/ThemeContext';
 // Google Fonts are provided from pages/_document.js per Next.js guidance.
 
 // Synchronously initialize dev bypass values on the client before React mounts
@@ -87,6 +88,18 @@ function MyApp({ Component, pageProps }) {
         if (!localStorage.getItem('user_email')) {
           localStorage.setItem('user_email', 'dev@local');
         }
+        // Initialize client-side mock handlers (axios interceptors, seed data)
+        try {
+          import('../utils/devMocks').then((mod) => {
+            try {
+              mod.initDevMocks && mod.initDevMocks();
+            } catch (e) {
+              // ignore
+            }
+          });
+        } catch (e) {
+          // ignore dynamic import errors in odd environments
+        }
       }
     } catch (e) {
       // swallow errors to avoid breaking the app in weird environments
@@ -95,7 +108,11 @@ function MyApp({ Component, pageProps }) {
     }
   }, []);
 
-  return <Component {...pageProps} />;
+  return (
+    <ThemeProvider>
+      <Component {...pageProps} />
+    </ThemeProvider>
+  );
 }
 
 export default MyApp;

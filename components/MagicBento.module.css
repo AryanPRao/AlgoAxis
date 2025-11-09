@@ -18,11 +18,11 @@
   max-width: 100%;
   padding: 2em;
   border-radius: 20px;
-  border: 1px solid #392e4e;
-  background: #060010;
+  border: 1px solid var(--bento-border);
+  background: var(--bento-bg);
   font-weight: 300;
   overflow: visible;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 
   --glow-x: 50%;
   --glow-y: 50%;
@@ -30,16 +30,64 @@
   --glow-radius: 200px;
 }
 
+/* Override inline background color in light mode */
+:global([data-theme='light']) .magicBentoCard[style*="background"] {
+  background: rgba(255, 255, 255, 0.95) !important;
+}
+
 .magicBentoCard:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 25px var(--shadow-color);
+  background: var(--bento-hover-bg);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+/* Light mode specific styles for Magic Bento */
+:global([data-theme='light']) .magicBentoCard {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+:global([data-theme='light']) .magicBentoCard:hover {
+  background: rgba(255, 255, 255, 1) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+/* Force text colors inside magic bento cards to be dark in light mode,
+   overriding inline color styles (e.g. h2/p that were set inline in
+   the Dashboard). Use specific selectors and !important to ensure
+   these win over inline attributes. */
+:global([data-theme='light']) .magicBentoCard .magicBentoCardContent h1,
+:global([data-theme='light']) .magicBentoCard .magicBentoCardContent h2,
+:global([data-theme='light']) .magicBentoCard .magicBentoCardContent h3,
+:global([data-theme='light']) .magicBentoCard .magicBentoCardContent h4,
+:global([data-theme='light']) .magicBentoCard .magicBentoCardContent h5,
+:global([data-theme='light']) .magicBentoCard .magicBentoCardContent h6 {
+  color: var(--text-primary) !important;
+}
+
+:global([data-theme='light']) .magicBentoCard .magicBentoCardContent p,
+:global([data-theme='light']) .magicBentoCard .magicBentoCardContent span,
+:global([data-theme='light']) .magicBentoCard .magicBentoCardContent strong,
+:global([data-theme='light']) .magicBentoCard .magicBentoCardContent small {
+  color: var(--text-secondary) !important;
+}
+
+/* Generic catch-all: any element inside a magic bento card that has an
+   inline color should be forced to dark text in light mode. This helps
+   when components set inline styles directly. */
+:global([data-theme='light']) .magicBentoCard [style*="color"] {
+  color: var(--text-primary) !important;
 }
 
 .magicBentoCardHeader,
 .magicBentoCardContent {
   display: flex;
   position: relative;
-  color: hsl(0, 0%, 100%);
+  color: var(--text-primary);
+  transition: color 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .magicBentoCardHeader {
@@ -71,6 +119,8 @@
   font-size: 12px;
   line-height: 1.2;
   opacity: 0.9;
+  color: var(--text-muted);
+  transition: color 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .magicBentoCardTextAutohide .magicBentoCardTitle,

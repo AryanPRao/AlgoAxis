@@ -46,11 +46,12 @@ export default function Navbar() {
 
   // Unified navbar style for all pages (consistent color/tint)
   const navbarStyle = {
-    background: "rgba(10, 10, 15, 0.72)",
+    background: "var(--glass-bg)",
     backdropFilter: "blur(20px)",
     WebkitBackdropFilter: "blur(20px)",
-    borderBottom: "1px solid rgba(99, 102, 241, 0.08)",
-    boxShadow: "0 4px 30px rgba(59, 130, 246, 0.06)",
+    borderBottom: "1px solid var(--border-color)",
+    boxShadow: "0 4px 30px var(--shadow-color)",
+    transition: "all 0.4s cubic-bezier(0.23, 1, 0.32, 1)",
   }
 
   return (
@@ -75,7 +76,7 @@ export default function Navbar() {
             {navItems.map((item, idx) => (
               <motion.div key={idx} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Link href={item.href} className="nav-link" style={{
-                  color: "#CBD5E1",
+                  color: "var(--text-secondary)",
                   fontWeight: 500,
                   fontFamily: 'Inter',
                   fontSize: "0.9375rem",
@@ -88,13 +89,14 @@ export default function Navbar() {
             {isAuthenticated && (
               <>
                 <div className="user-greeting" style={{
-                  color: "#F9FAFB",
+                  color: "var(--text-primary)",
                   fontWeight: 600,
                   fontFamily: 'Inter',
                   padding: "0.5rem 1rem",
-                  background: "rgba(255, 255, 255, 0.04)",
+                  background: "var(--glass-bg)",
                   borderRadius: "12px",
-                  border: "1px solid rgba(255, 255, 255, 0.08)"
+                  border: "1px solid var(--border-color)",
+                  transition: "all 0.4s cubic-bezier(0.23, 1, 0.32, 1)"
                 }}>
                   {userName}
                 </div>
@@ -124,7 +126,8 @@ export default function Navbar() {
               fontSize: "1.5rem",
               padding: "0.5rem",
               borderRadius: "8px",
-              backdropFilter: "blur(10px)"
+              backdropFilter: "blur(10px)",
+              transition: "all 0.3s cubic-bezier(0.23, 1, 0.32, 1)"
             }}
           >
             {mobileMenuOpen ? <FiX /> : <FiMenu />}
@@ -138,23 +141,29 @@ export default function Navbar() {
             exit={{ opacity: 0, height: 0 }}
             className="mt-3 d-lg-none"
             style={{
-              background: "rgba(255, 255, 255, 0.03)",
+              background: "var(--bento-bg)",
               backdropFilter: "blur(20px)",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
+              border: "1px solid var(--border-color)",
               borderRadius: "16px",
-              padding: "1rem"
+              padding: "1rem",
+              transition: "all 0.4s cubic-bezier(0.23, 1, 0.32, 1)"
             }}
           >
             {navItems.map((item, idx) => (
               <Link key={idx} href={item.href} className="nav-link d-block py-2" style={{
-                color: "rgba(241, 245, 249, 0.9)"
+                color: "var(--text-secondary)",
+                transition: "color 0.3s ease"
               }}>
                 {item.label}
               </Link>
             ))}
             {isAuthenticated && (
               <>
-                <div className="py-2" style={{ color: "#f1f5f9", fontWeight: 600 }}>
+                <div className="py-2" style={{ 
+                  color: "var(--text-primary)", 
+                  fontWeight: 600,
+                  transition: "color 0.4s cubic-bezier(0.23, 1, 0.32, 1)"
+                }}>
                   {userName}
                 </div>
                 <button className={styles.glassButton} onClick={handleLogout} style={{

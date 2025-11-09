@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Navbar from '../components/Navbar';
-import AnimatedList from '../components/AnimatedList';
 import axios from 'axios';
 import { FaPlus, FaEdit, FaTrash, FaMagic, FaLightbulb } from 'react-icons/fa';
 import styles from '../styles/glass.module.css';
@@ -27,6 +26,8 @@ export default function Tracker() {
   const topics = ['None', 'Arrays', 'Strings', 'Linked Lists', 'Trees', 'Graphs', 'Dynamic Programming', 
                   'Greedy', 'Backtracking', 'Binary Search', 'Sorting', 'Hash Tables', 'Stacks & Queues',
                   'Heaps', 'Bit Manipulation', 'Math', 'Recursion', 'Sliding Window', 'Two Pointers'];
+
+  
 
   
 
@@ -203,9 +204,11 @@ export default function Tracker() {
             <div className="spinner-custom"></div>
           </div>
         ) : problems.length === 0 ? (
-          <div className={styles.glassFeatureCard + ' text-center fade-in-up'}>
-            <h3 className={styles.cardTitle}>No Problems Yet </h3>
-            <p className={styles.cardDescription}>Start by adding your first coding problem!</p>
+          <div className="fade-in-up">
+            <div className={styles.glassFeatureCard + ' text-center'}>
+              <h3 className={styles.cardTitle}>No Problems Yet</h3>
+              <p className={styles.cardDescription}>Start by adding your first coding problem — use the "Add New Problem" button above.</p>
+            </div>
           </div>
         ) : (
           <div style={{
@@ -283,7 +286,7 @@ export default function Tracker() {
       {showModal && (
         <div 
           className="modal fade show" 
-          style={{ display: 'block', background: 'rgba(0,0,0,0.5)' }}
+          style={{ display: 'block', background: 'rgba(0,0,0,0.5)', zIndex: 2000 }}
           onClick={() => setShowModal(false)}
         >
           <div className="modal-dialog modal-dialog-centered" onClick={(e) => e.stopPropagation()}>
@@ -395,7 +398,7 @@ export default function Tracker() {
       {showSuggestModal && (
         <div 
           className="modal fade show" 
-          style={{ display: 'block', background: 'rgba(0,0,0,0.5)' }}
+          style={{ display: 'block', background: 'rgba(0,0,0,0.5)', zIndex: 2000 }}
           onClick={() => setShowSuggestModal(false)}
         >
           <div className="modal-dialog modal-dialog-centered modal-lg" onClick={(e) => e.stopPropagation()}>
@@ -424,14 +427,28 @@ export default function Tracker() {
 
                 <div className="mb-4">
                   <label className="form-label fw-bold" style={{ color: '#E6EEF8' }}>Would you like to practice a specific topic?</label>
-                  <AnimatedList
-                    items={topics}
-                    onItemSelect={(item) => setSelectedTopic(item)}
-                    showGradients={false}
-                    enableArrowNavigation={true}
-                    displayScrollbar={true}
-                    initialSelectedIndex={topics.indexOf(selectedTopic)}
-                  />
+                  <div 
+                    className="topic-list-container"
+                    style={{
+                      maxHeight: '280px',
+                      overflowY: 'auto',
+                      padding: '14px',
+                      borderRadius: '12px',
+                      background: 'transparent'
+                    }}
+                  >
+                    {topics.map((topic, index) => (
+                      <button
+                        key={index}
+                        type="button"
+                        className="topic-button"
+                        data-selected={selectedTopic === topic}
+                        onClick={() => setSelectedTopic(topic)}
+                      >
+                        {topic}
+                      </button>
+                    ))}
+                  </div>
                   <small className="d-block mt-2" style={{ color: '#DCE7FF' }}>
                     Select "None" for general recommendations based on your progress
                   </small>

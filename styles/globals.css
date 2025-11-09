@@ -138,6 +138,40 @@
   --danger-gradient: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
   --glass-bg: rgba(255, 255, 255, 0.05);
   --glass-border: rgba(255, 255, 255, 0.08);
+  
+  /* Dark mode colors (default) */
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --text-primary: #F9FAFB;
+  --text-secondary: rgba(241, 245, 249, 0.8);
+  --text-muted: rgba(241, 245, 249, 0.5);
+  --border-color: rgba(255, 255, 255, 0.1);
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --bento-bg: rgba(255, 255, 255, 0.03);
+  --bento-border: rgba(255, 255, 255, 0.08);
+  --bento-hover-bg: rgba(255, 255, 255, 0.06);
+}
+
+/* Light mode overrides */
+[data-theme='light'] {
+  --primary-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+  --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #6366F1 100%);
+  --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  --warning-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  --danger-gradient: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(0, 0, 0, 0.1);
+  
+  --bg-primary: #f8fafc;
+  --bg-secondary: #e2e8f0;
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --border-color: rgba(0, 0, 0, 0.1);
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --bento-bg: rgba(255, 255, 255, 0.9);
+  --bento-border: rgba(0, 0, 0, 0.08);
+  --bento-hover-bg: rgba(255, 255, 255, 1);
 }
 
 body {
@@ -147,10 +181,11 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   pointer-events: auto !important;
-  color: #F9FAFB;
+  color: var(--text-primary);
   font-weight: 400;
   line-height: 1.7;
   letter-spacing: -0.01em;
+  transition: background 0.4s cubic-bezier(0.23, 1, 0.32, 1), color 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 input,
@@ -679,4 +714,327 @@ html {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Theme Toggle Styles */
+.theme-toggle-container {
+  position: fixed;
+  top: 120px;
+  right: 2rem;
+  z-index: 999;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 50px;
+  padding: 0.5rem 0.75rem;
+  box-shadow: 0 8px 32px var(--shadow-color);
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.theme-toggle-container:hover {
+  background: var(--bento-hover-bg);
+  box-shadow: 0 12px 40px var(--shadow-color);
+}
+
+.theme-icon-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+.theme-toggle-container[data-state='checked'] .light-icon,
+.theme-toggle-container[data-state='unchecked'] .dark-icon {
+  color: var(--text-primary);
+  opacity: 1;
+}
+
+.theme-toggle-container[data-state='unchecked'] .light-icon,
+.theme-toggle-container[data-state='checked'] .dark-icon {
+  opacity: 0.5;
+}
+
+.icon-size {
+  width: 16px;
+  height: 16px;
+}
+
+.theme-switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  background: var(--bento-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  outline: none;
+  padding: 0;
+}
+
+.theme-switch:hover {
+  background: var(--bento-hover-bg);
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.theme-switch:focus-visible {
+  outline: 2px solid rgba(59, 130, 246, 0.5);
+  outline-offset: 2px;
+}
+
+.theme-switch-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(135deg, #60a5fa, #3b82f6);
+  border-radius: 50%;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.theme-switch-thumb[data-state='checked'] {
+  transform: translateX(20px);
+  background: linear-gradient(135deg, #8b5cf6, #6366f1);
+}
+
+[data-theme='light'] .theme-switch-thumb {
+  background: linear-gradient(135deg, #f59e0b, #ea580c);
+}
+
+[data-theme='light'] .theme-switch-thumb[data-state='checked'] {
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+}
+
+/* Old theme toggle styles - can be removed */
+.theme-toggle-btn,
+.theme-toggle-inner,
+.theme-icon,
+.theme-toggle-label {
+  display: none;
+}
+
+/* Update existing components to use CSS variables for smooth transitions */
+.navbar-custom {
+  background: linear-gradient(135deg, var(--glass-bg) 0%, rgba(30, 41, 59, 0.5) 100%);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 8px 32px var(--shadow-color);
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.nav-link {
+  color: var(--text-secondary) !important;
+  transition: all 0.3s ease;
+}
+
+.card-custom {
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Update bento grid items */
+.bento-item {
+  background: var(--bento-bg);
+  border: 1px solid var(--bento-border);
+  backdrop-filter: blur(12px);
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.bento-item:hover {
+  background: var(--bento-hover-bg);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+[data-theme='light'] .bento-item {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme='light'] .bento-item:hover {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+}
+
+/* Force non-header text dark in light mode (avoid changing h1-h6) */
+[data-theme='light'] body,
+[data-theme='light'] p,
+[data-theme='light'] span,
+[data-theme='light'] li,
+[data-theme='light'] a,
+[data-theme='light'] label,
+[data-theme='light'] input,
+[data-theme='light'] textarea,
+[data-theme='light'] select,
+[data-theme='light'] button,
+[data-theme='light'] .cardDescription,
+[data-theme='light'] .glassTextGlow,
+[data-theme='light'] .magicBentoCardDescription,
+[data-theme='light'] .magicBentoCardTitle,
+[data-theme='light'] .nav-link,
+[data-theme='light'] .user-greeting,
+[data-theme='light'] .dropdown-item,
+[data-theme='light'] .form-control,
+[data-theme='light'] .form-select {
+  color: var(--text-primary) !important;
+}
+
+/* Ensure links are readable but slightly muted */
+[data-theme='light'] a {
+  color: var(--text-secondary) !important;
+}
+
+/* Keep headers using their own styles (don't override h1-h6) */
+
+/* Modal and Popup styles for light mode */
+[data-theme='light'] .modal,
+[data-theme='light'] .modal-content,
+[data-theme='light'] .modal-body,
+[data-theme='light'] .modal-header,
+[data-theme='light'] .modal-footer {
+  background: rgba(255, 255, 255, 0.98);
+  color: var(--text-primary);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='light'] .modal-title,
+[data-theme='light'] .modal-body h1,
+[data-theme='light'] .modal-body h2,
+[data-theme='light'] .modal-body h3,
+[data-theme='light'] .modal-body h4,
+[data-theme='light'] .modal-body h5,
+[data-theme='light'] .modal-body h6 {
+  color: var(--text-primary);
+}
+
+[data-theme='light'] .modal-body p,
+[data-theme='light'] .modal-body span,
+[data-theme='light'] .modal-body div,
+[data-theme='light'] .modal-body label {
+  color: var(--text-secondary);
+}
+
+[data-theme='light'] .form-control,
+[data-theme='light'] .form-select,
+[data-theme='light'] input,
+[data-theme='light'] textarea,
+[data-theme='light'] select {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--text-primary);
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme='light'] .form-control::placeholder,
+[data-theme='light'] input::placeholder,
+[data-theme='light'] textarea::placeholder {
+  color: var(--text-muted);
+}
+
+/* Bootstrap modal backdrop for light mode */
+[data-theme='light'] .modal-backdrop {
+  background-color: rgba(15, 23, 42, 0.5);
+}
+
+/* Dropdown and select menus in light mode */
+[data-theme='light'] .dropdown-menu {
+  background: rgba(255, 255, 255, 0.98);
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='light'] .dropdown-item {
+  color: var(--text-secondary);
+}
+
+[data-theme='light'] .dropdown-item:hover {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--text-primary);
+}
+
+/* Strong overrides for Suggest (AI) modal: defeat inline styles and
+   ensure all non-header text inside the suggestion modal is dark in
+   light mode and the recommendations list has a lightly colored
+   background (like the magic bento). */
+[data-theme='light'] .modal-content .modal-body p,
+[data-theme='light'] .modal-content .modal-body small,
+[data-theme='light'] .modal-content .modal-body span,
+[data-theme='light'] .modal-content .modal-body label,
+[data-theme='light'] .modal-content .modal-body .text-muted {
+  color: var(--text-secondary) !important;
+}
+
+/* Make the recommendation list and its items lightly coloured in
+   light mode (use !important to override any inline or bootstrap
+   defaults). This mirrors the soft bento look even when colors are
+   hardcoded in JS. */
+[data-theme='light'] .modal-content .list-group {
+  background: transparent !important;
+  padding: 0.25rem !important;
+}
+
+[data-theme='light'] .modal-content .list-group-item {
+  background: var(--bento-bg) !important;
+  border: 1px solid var(--bento-border) !important;
+  color: var(--text-primary) !important;
+  border-radius: 10px !important;
+  margin-bottom: 0.5rem !important;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06) !important;
+}
+
+/* Ensure small helper text inside the modal (e.g. "Select 'None'...")
+   also becomes dark in light mode even when inline styles exist. */
+[data-theme='light'] .modal-content small,
+[data-theme='light'] .modal-content .form-label,
+[data-theme='light'] .modal-content .form-label-custom {
+  color: var(--text-secondary) !important;
+}
+
+/* Topic button list styling for Suggest modal */
+.topic-button {
+  width: 100%;
+  padding: 12px 14px;
+  background-color: rgba(23,13,39,0.9);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  margin-bottom: 0.75rem;
+  color: #dbeafe;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.18s ease;
+  box-shadow: none;
+}
+
+.topic-button:hover {
+  background-color: rgba(30,23,45,0.92);
+}
+
+.topic-button[data-selected="true"] {
+  background-color: rgba(39,30,55,0.95);
+  border: 1px solid rgba(99,102,241,0.3);
+  box-shadow: 0 8px 24px rgba(99,102,241,0.12);
+}
+
+/* Light mode topic buttons */
+[data-theme='light'] .topic-button {
+  background-color: var(--bento-bg);
+  border: 1px solid var(--bento-border);
+  color: var(--text-primary);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+[data-theme='light'] .topic-button:hover {
+  background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+[data-theme='light'] .topic-button[data-selected="true"] {
+  background-color: rgba(255, 255, 255, 1);
+  border: 1px solid rgba(99,102,241,0.4);
+  box-shadow: 0 8px 28px rgba(99,102,241,0.15);
+  color: var(--text-primary);
 }

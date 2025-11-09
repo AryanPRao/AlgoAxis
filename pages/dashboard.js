@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import Navbar from "../components/Navbar"
+import ThemeToggle from "../components/ThemeToggle"
 import MagicBento from "../components/MagicBento"
 import styles from "../styles/glass.module.css"
 import mbStyles from "../components/MagicBento.module.css"
@@ -156,6 +157,7 @@ export default function Dashboard() {
 
       <div style={{ position: "relative", zIndex: 1 }}>
       <Navbar />
+      <ThemeToggle />
 
         <div className="container-custom">
         <motion.div

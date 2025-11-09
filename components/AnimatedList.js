@@ -10,8 +10,8 @@ const AnimatedItem = ({ children, delay = 0, index, onMouseEnter, onClick }) => 
     <motion.div
       ref={ref}
       data-index={index}
-      onMouseEnter={onMouseEnter}
-      onClick={onClick}
+      onMouseEnter={(e) => { e.stopPropagation(); if (onMouseEnter) onMouseEnter(e); }}
+      onClick={(e) => { e.stopPropagation(); if (onClick) onClick(e); }}
       initial={{ scale: 0.92, opacity: 0 }}
       animate={inView ? { scale: 1, opacity: 1 } : { scale: 0.92, opacity: 0 }}
       transition={{ duration: 0.18, delay }}
