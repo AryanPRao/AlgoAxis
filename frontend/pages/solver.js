@@ -182,7 +182,7 @@ export default function GuidedSolver() {
                         )}
                       </div>
                       <div 
-                        className={`p-3 rounded ${
+                        className={`p-3 rounded markdown-content ${
                           msg.role === 'assistant' 
                             ? 'bg-light border' 
                             : msg.role === 'user'
@@ -194,24 +194,58 @@ export default function GuidedSolver() {
                         <ReactMarkdown 
                           remarkPlugins={[remarkGfm]}
                           components={{
-                            code: ({node, inline, ...props}) => 
-                              inline ? (
+                            h1: ({node, ...props}) => <h1 style={{ fontSize: '1.5rem', marginTop: '1rem', marginBottom: '0.75rem' }} {...props} />,
+                            h2: ({node, ...props}) => <h2 style={{ fontSize: '1.35rem', marginTop: '1rem', marginBottom: '0.75rem' }} {...props} />,
+                            h3: ({node, ...props}) => <h3 style={{ fontSize: '1.2rem', marginTop: '0.75rem', marginBottom: '0.5rem' }} {...props} />,
+                            p: ({node, ...props}) => <p style={{ marginBottom: '0.75rem' }} {...props} />,
+                            ul: ({node, ...props}) => <ul style={{ marginBottom: '0.75rem', paddingLeft: '1.5rem' }} {...props} />,
+                            ol: ({node, ...props}) => <ol style={{ marginBottom: '0.75rem', paddingLeft: '1.5rem' }} {...props} />,
+                            li: ({node, ...props}) => <li style={{ marginBottom: '0.25rem' }} {...props} />,
+                            code: ({node, inline, className, children, ...props}) => {
+                              const match = /language-(\w+)/.exec(className || '');
+                              return inline ? (
                                 <code style={{ 
-                                  background: '#f8f9fa', 
+                                  background: 'rgba(102, 126, 234, 0.1)', 
                                   padding: '2px 6px', 
                                   borderRadius: '4px',
-                                  fontSize: '0.9em'
-                                }} {...props} />
+                                  fontSize: '0.9em',
+                                  fontFamily: 'Courier New, monospace',
+                                  color: '#667eea'
+                                }} {...props}>
+                                  {children}
+                                </code>
                               ) : (
-                                <code style={{ 
-                                  display: 'block',
+                                <pre style={{ 
                                   background: '#f8f9fa', 
                                   padding: '12px', 
-                                  borderRadius: '6px',
+                                  borderRadius: '8px',
                                   overflow: 'auto',
-                                  fontSize: '0.85em'
-                                }} {...props} />
-                              )
+                                  border: '1px solid #e2e8f0',
+                                  marginBottom: '0.75rem'
+                                }}>
+                                  <code style={{ 
+                                    fontFamily: 'Courier New, monospace',
+                                    fontSize: '0.85em',
+                                    color: '#2d3748'
+                                  }} {...props}>
+                                    {children}
+                                  </code>
+                                </pre>
+                              );
+                            },
+                            blockquote: ({node, ...props}) => (
+                              <blockquote style={{
+                                borderLeft: '4px solid #667eea',
+                                paddingLeft: '1rem',
+                                marginLeft: 0,
+                                marginBottom: '0.75rem',
+                                color: '#718096',
+                                fontStyle: 'italic'
+                              }} {...props} />
+                            ),
+                            strong: ({node, ...props}) => <strong style={{ fontWeight: 600 }} {...props} />,
+                            em: ({node, ...props}) => <em style={{ fontStyle: 'italic' }} {...props} />,
+                            hr: ({node, ...props}) => <hr style={{ border: 'none', borderTop: '2px solid #e2e8f0', margin: '1rem 0' }} {...props} />
                           }}
                         >
                           {msg.content}

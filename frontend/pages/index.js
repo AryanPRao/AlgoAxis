@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Navbar from '../components/Navbar';
-import { FaClipboardList, FaChartLine, FaFileUpload, FaTrophy, FaRobot } from 'react-icons/fa';
+import { FaClipboardList, FaChartLine, FaFileUpload, FaTrophy, FaRobot, FaVideo } from 'react-icons/fa';
 
 export default function Home() {
   const router = useRouter();

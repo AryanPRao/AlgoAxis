@@ -1,11 +1,13 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { FaMoon, FaSun } from 'react-icons/fa';
 
 export default function Navbar() {
   const router = useRouter();
   const [userName, setUserName] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [theme, setTheme] = useState('light');
 
   useEffect(() => {
     // Check if user is authenticated
@@ -18,7 +20,19 @@ export default function Navbar() {
     } else {
       setIsAuthenticated(false);
     }
+
+    // Load theme from localStorage
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    setTheme(savedTheme);
+    document.documentElement.setAttribute('data-theme', savedTheme);
   }, [router.pathname]);
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+    document.documentElement.setAttribute('data-theme', newTheme);
+  };
 
   const handleLogout = () => {
     localStorage.removeItem('user_id');
@@ -63,6 +77,16 @@ export default function Navbar() {
                   <Link href="/upload" className="nav-link">Resume</Link>
                 </li>
                 <li className="nav-item">
+                  <button 
+                    className="btn btn-sm btn-outline-light me-3" 
+                    onClick={toggleTheme}
+                    style={{ borderRadius: '50%', width: '40px', height: '40px', padding: '0' }}
+                    title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+                  >
+                    {theme === 'light' ? <FaMoon /> : <FaSun />}
+                  </button>
+                </li>
+                <li className="nav-item">
                   <span className="user-greeting">Hi, {userName}!</span>
                 </li>
                 <li className="nav-item">
@@ -73,6 +97,16 @@ export default function Navbar() {
               </>
             ) : (
               <>
+                <li className="nav-item">
+                  <button 
+                    className="btn btn-sm btn-outline-light me-3" 
+                    onClick={toggleTheme}
+                    style={{ borderRadius: '50%', width: '40px', height: '40px', padding: '0' }}
+                    title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+                  >
+                    {theme === 'light' ? <FaMoon /> : <FaSun />}
+                  </button>
+                </li>
                 <li className="nav-item">
                   <Link href="/login" className="nav-link">Login</Link>
                 </li>
