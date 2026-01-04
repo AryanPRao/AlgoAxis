@@ -45,7 +45,7 @@ export default function Navbar() {
     <nav className="navbar navbar-expand-lg navbar-dark navbar-custom">
       <div className="container-fluid">
         <Link href="/" className="navbar-brand">
-          🎯 InterviewMate
+          AlgoAxis
         </Link>
         
         <button 
@@ -121,3 +121,4 @@ export default function Navbar() {
     </nav>
   );
 }
+

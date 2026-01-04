@@ -57,10 +57,10 @@ export default function Home() {
       <div className="container-custom">
         <div className="page-header fade-in-up">
           <h1 className="page-title">
-            Welcome to InterviewMate 🎯
+            Welcome to AlgoAxis
           </h1>
           <p className="page-subtitle">
-            Your complete platform for technical interview preparation
+            Algorithm mastery and interview prep in one streamlined workspace
           </p>
         </div>
 
@@ -146,7 +146,7 @@ export default function Home() {
 
         <div className="text-center mb-5 fade-in-up">
           <div className="feature-card" style={{ maxWidth: '800px', margin: '0 auto' }}>
-            <h3 className="card-title">🎓 How InterviewMate Works</h3>
+            <h3 className="card-title">How AlgoAxis Works</h3>
             <div className="row mt-4">
               <div className="col-md-3 mb-3">
                 <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>📝</div>
@@ -183,3 +183,7 @@ export default function Home() {
     </div>
   );
 }
+
+
+
+
