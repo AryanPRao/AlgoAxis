@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Navbar from '../components/Navbar';
-import { FaClipboardList, FaChartLine, FaFileUpload, FaTrophy, FaRobot, FaVideo } from 'react-icons/fa';
+import { FaClipboardList, FaChartLine, FaRobot, FaUsers } from 'react-icons/fa';
 
 export default function Home() {
   const router = useRouter();
@@ -42,10 +42,10 @@ export default function Home() {
       color: '#f56565'
     },
     {
-      icon: <FaFileUpload />,
-      title: 'Resume Upload',
-      description: 'Upload your resume to AWS S3 and get AI-powered feedback to optimize it for technical interviews.',
-      link: '/upload',
+      icon: <FaUsers />,
+      title: 'Groups',
+      description: 'Create or join groups to stay accountable and prep with friends.',
+      link: '/groups',
       color: '#48bb78'
     }
   ];
